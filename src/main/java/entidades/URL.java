@@ -7,17 +7,22 @@ import javax.persistence.criteria.Fetch;
 @Entity
 public class URL implements Serializable {
     @Id
+    @GeneratedValue
     private long id;
-    private String url_generada;
-    private String url_referencia;
-    private int cant_accesos;
+    private String urlGenerada;
+    private String urlReferencia;
+    private int cantAccesos;
+    @ManyToOne(optional = false)
+    private Usuario usuarios;
+    @OneToMany(mappedBy = "urls", fetch = FetchType.LAZY)
     private Set<Acceso> misURLs;
+
     public URL(){}
-    public URL(long id, String url_generada, String url_referencia, int cant_accesos) {
+    public URL(long id, String urlGenerada, String urlReferencia, int cantAccesos) {
         this.id = id;
-        this.url_generada = url_generada;
-        this.url_referencia = url_referencia;
-        this.cant_accesos = cant_accesos;
+        this.urlGenerada = urlGenerada;
+        this.urlReferencia = urlReferencia;
+        this.cantAccesos = cantAccesos;
     }
     public long getId() {
         return id;
@@ -27,28 +32,28 @@ public class URL implements Serializable {
         this.id = id;
     }
 
-    public String getUrl_generada() {
-        return url_generada;
+    public String geturlGenerada() {
+        return urlGenerada;
     }
 
-    public void setUrl_generada(String url_generada) {
-        this.url_generada = url_generada;
+    public void seturlGenerada(String urlGenerada) {
+        this.urlGenerada = urlGenerada;
     }
 
-    public String getUrl_referencia() {
-        return url_referencia;
+    public String geturlReferencia() {
+        return urlReferencia;
     }
 
-    public void setUrl_referencia(String url_referencia) {
-        this.url_referencia = url_referencia;
+    public void seturlReferencia(String urlReferencia) {
+        this.urlReferencia = urlReferencia;
     }
 
-    public int getCant_accesos() {
-        return cant_accesos;
+    public int getcantAccesos() {
+        return cantAccesos;
     }
 
-    public void setCant_accesos(int cant_accesos) {
-        this.cant_accesos = cant_accesos;
+    public void setcantAccesos(int cantAccesos) {
+        this.cantAccesos = cantAccesos;
     }
 
     public Set<Acceso> getMisURLs() {
@@ -59,4 +64,11 @@ public class URL implements Serializable {
         this.misURLs = misURLs;
     }
 
+    public Usuario getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(Usuario usuarios) {
+        this.usuarios = usuarios;
+    }
 }

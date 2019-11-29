@@ -1,21 +1,23 @@
 package entidades;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
 @Entity
 public class Navegador implements Serializable {
     @Id
+    @GeneratedValue
     private int id;
-    private String referencia_navegador;
-    private String nombre_navegador;
+    private String referenciaNavegador;
+    private String nombreNavegador;
 
     public Navegador(){}
 
-    public Navegador(int id, String referencia_navegador, String nombre_navegador) {
+    public Navegador(int id, String referenciaNavegador, String nombreNavegador) {
         this.id = id;
-        this.referencia_navegador = referencia_navegador;
-        this.nombre_navegador = nombre_navegador;
+        this.referenciaNavegador = referenciaNavegador;
+        this.nombreNavegador = nombreNavegador;
     }
 
     public int getId() {
@@ -26,19 +28,20 @@ public class Navegador implements Serializable {
         this.id = id;
     }
 
-    public String getReferencia_navegador() {
-        return referencia_navegador;
+    public String getreferenciaNavegador() {
+        return referenciaNavegador;
     }
 
-    public void setReferencia_navegador(String referencia_navegador) {
-        this.referencia_navegador = referencia_navegador;
+    public void setreferenciaNavegador(String referenciaNavegador) {
+        this.referenciaNavegador = referenciaNavegador;
     }
 
-    public String getNombre_navegador() {
-        return nombre_navegador;
+    public String getnombreNavegador() {
+        return nombreNavegador;
     }
 
-    public void setNombre_navegador(String nombre_navegador) {
-        this.nombre_navegador = nombre_navegador;
+    public void setnombreNavegador(String nombreNavegador) {
+        this.nombreNavegador = nombreNavegador;
     }
+
 }

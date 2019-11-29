@@ -1,7 +1,6 @@
 package entidades;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -9,21 +8,26 @@ import java.util.Set;
 @Entity
 public class Acceso implements Serializable {
     @Id
+    @GeneratedValue
     private int id;
     private String navegador;
-    private String sistema_operativo;
-    private String ip_cliente;
-    private Date fecha_hora_acceso;
+    private String sistemaOperativo;
+    private String ipCliente;
+    private Date fechaHoraAcceso;
+    @ManyToOne(optional = false)
+    private URL urls;
+    @OneToMany
     private Set<Navegador> misNavegadores;
+    @OneToMany
     private Set<SistemaOperativo> misSOs;
 
     public Acceso(){}
-    public Acceso(int id, String navegador, String sistema_operativo, String ip_cliente, Date fecha_hora_acceso) {
+    public Acceso(int id, String navegador, String sistemaOperativo, String ipCliente, Date fechaHoraAcceso) {
         this.id = id;
         this.navegador = navegador;
-        this.sistema_operativo = sistema_operativo;
-        this.ip_cliente = ip_cliente;
-        this.fecha_hora_acceso = fecha_hora_acceso;
+        this.sistemaOperativo = sistemaOperativo;
+        this.ipCliente = ipCliente;
+        this.fechaHoraAcceso = fechaHoraAcceso;
     }
 
     public int getId() {
@@ -42,28 +46,28 @@ public class Acceso implements Serializable {
         this.navegador = navegador;
     }
 
-    public String getSistema_operativo() {
-        return sistema_operativo;
+    public String getsistemaOperativo() {
+        return sistemaOperativo;
     }
 
-    public void setSistema_operativo(String sistema_operativo) {
-        this.sistema_operativo = sistema_operativo;
+    public void setsistemaOperativo(String sistemaOperativo) {
+        this.sistemaOperativo = sistemaOperativo;
     }
 
-    public String getIp_cliente() {
-        return ip_cliente;
+    public String getipCliente() {
+        return ipCliente;
     }
 
-    public void setIp_cliente(String ip_cliente) {
-        this.ip_cliente = ip_cliente;
+    public void setipCliente(String ipCliente) {
+        this.ipCliente = ipCliente;
     }
 
-    public Date getFecha_hora_acceso() {
-        return fecha_hora_acceso;
+    public Date getfechaHoraAcceso() {
+        return fechaHoraAcceso;
     }
 
-    public void setFecha_hora_acceso(Date fecha_hora_acceso) {
-        this.fecha_hora_acceso = fecha_hora_acceso;
+    public void setfechaHoraAcceso(Date fechaHoraAcceso) {
+        this.fechaHoraAcceso = fechaHoraAcceso;
     }
 
     public Set<Navegador> getMisNavegadores() {
@@ -80,5 +84,13 @@ public class Acceso implements Serializable {
 
     public void setMisSOs(Set<SistemaOperativo> misSOs) {
         this.misSOs = misSOs;
+    }
+
+    public URL getUrls() {
+        return urls;
+    }
+
+    public void setUrls(URL urls) {
+        this.urls = urls;
     }
 }

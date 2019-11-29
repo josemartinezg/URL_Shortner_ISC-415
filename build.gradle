@@ -24,6 +24,12 @@ dependencies {
     compile 'org.freemarker:freemarker:2.3.26-incubating'
     compile "org.slf4j:slf4j-simple:1.7.21"
     compile group: 'org.jasypt', name: 'jasypt', version: '1.9.0'
+    compile 'org.hibernate:hibernate-core:5.1.0.Final'
+    compile 'org.hibernate:hibernate-entitymanager:5.1.0.Final'
+    implementation "javax.xml.bind:jaxb-api:2.2.11"
+    implementation "com.sun.xml.bind:jaxb-core:2.2.11"
+    implementation "com.sun.xml.bind:jaxb-impl:2.2.11"
+    implementation "javax.activation:activation:1.1.1"
 }
 shadowJar{
     baseName = 'URL_Shortner_ISC-415'

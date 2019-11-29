@@ -1,21 +1,23 @@
 package entidades;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
 @Entity
 public class SistemaOperativo implements Serializable {
     @Id
+    @GeneratedValue
     private int id;
-    private String referencia_so;
-    private String nomre_so;
+    private String referenciaSo;
+    private String nombreSo;
 
     public SistemaOperativo(){}
-    
-    public SistemaOperativo(int id, String referencia_so, String nomre_so) {
+
+    public SistemaOperativo(int id, String referenciaSo, String nombreSo) {
         this.id = id;
-        this.referencia_so = referencia_so;
-        this.nomre_so = nomre_so;
+        this.referenciaSo = referenciaSo;
+        this.nombreSo = nombreSo;
     }
 
     public int getId() {
@@ -26,20 +28,20 @@ public class SistemaOperativo implements Serializable {
         this.id = id;
     }
 
-    public String getReferencia_so() {
-        return referencia_so;
+    public String getreferenciaSo() {
+        return referenciaSo;
     }
 
-    public void setReferencia_so(String referencia_so) {
-        this.referencia_so = referencia_so;
+    public void setreferenciaSo(String referenciaSo) {
+        this.referenciaSo = referenciaSo;
     }
 
-    public String getNomre_so() {
-        return nomre_so;
+    public String getnombreSo() {
+        return nombreSo;
     }
 
-    public void setNomre_so(String nomre_so) {
-        this.nomre_so = nomre_so;
+    public void setnombreSo(String nombreSo) {
+        this.nombreSo = nombreSo;
     }
 
 }
