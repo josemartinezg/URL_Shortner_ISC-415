@@ -29,16 +29,16 @@
             <form action="/hacerLogin/" method="post"  enctype="application/x-www-form-urlencoded">
                 <div class="form-group">
                     <div class="form-label-group">
-                        <input name="username" type="text" id="username" class="form-control" placeholder="Username"
-                               required="required" autofocus="autofocus">
-                        <label for="Username">Username</label>
+                        <input name="username" class="form-control" placeholder="Username" type="username"
+                               id="username" required="required" autofocus="autofocus">
+                        <label for="username">Username</label>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="form-label-group">
-                        <input name="password" type="password" id="password" class="form-control" placeholder="******"
-                               required="required">
-                        <label for="inputPassword">Password</label>
+                        <input name="password" class="form-control" placeholder="password" type="password"
+                               id="password" required="required" autofocus="autofocus">
+                        <label for="password">Password</label>
                     </div>
                 </div>
                 <div class="form-group">
