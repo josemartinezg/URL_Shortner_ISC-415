@@ -19,10 +19,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static spark.Spark.*;
 public class Main {
@@ -46,8 +43,6 @@ public class Main {
         Spark.get("/home", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Home");
-            List<Usuario> usuarios = UsuarioService.getInstance().findAll();
-            attributes.put("usuarios", usuarios);
             encriptingCookies(request, attributes);
             return new ModelAndView(attributes, "home.ftl");
         }, freeMarkerEngine);
@@ -130,11 +125,14 @@ public class Main {
                 "admin",
                 true
         );
-        attributes.put("usuario", adminUser);
-        if(adminUser != null){
-            attributes.put("links", UsuarioService.getInstance().find(adminUser.getUsername()).getMisURLs());
+        attributes.put("usuario", usuario);
+        URL urlAux = new URL("\rd\bg", "https://www.amazon.com/", 1, adminUser);
+        ArrayList<URL> urlArrayList = new ArrayList<URL>();
+        urlArrayList.add(urlAux);
+        if(usuario != null){
+            attributes.put("links", urlArrayList);
         }else{
-            attributes.put("links", new ArrayList<>());
+            attributes.put("links", urlArrayList);
         }
         return new ModelAndView(attributes, "panelAdmin.ftl");
     }, freeMarkerEngine);
