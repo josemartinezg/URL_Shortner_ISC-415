@@ -47,7 +47,7 @@ public class Main {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Home");
             List<Usuario> usuarios = UsuarioService.getInstance().findAll();
-            attributes.put("articulos", usuarios);
+            attributes.put("usuarios", usuarios);
             encriptingCookies(request, attributes);
             return new ModelAndView(attributes, "home.ftl");
         }, freeMarkerEngine);
@@ -123,14 +123,20 @@ public class Main {
         Map<String, Object> attributes = new HashMap<>();
 
         Usuario usuario = request.session(true).attribute("usuario");
-        attributes.put("usuario", usuario);
-        if(usuario != null){
-            attributes.put("links", UsuarioService.getInstance().find(usuario).
-                    getMisURLs());
+        Usuario adminUser = new Usuario(
+                "admin",
+                "admin",
+                "admin",
+                "admin",
+                true
+        );
+        attributes.put("usuario", adminUser);
+        if(adminUser != null){
+            attributes.put("links", UsuarioService.getInstance().find(adminUser.getUsername()).getMisURLs());
         }else{
             attributes.put("links", new ArrayList<>());
         }
-        return new ModelAndView(attributes, "guessLinkPrompt.ftl");
+        return new ModelAndView(attributes, "panelAdmin.ftl");
     }, freeMarkerEngine);
 
     Spark.get("/rd/:code", (request, response) ->{
@@ -153,6 +159,18 @@ public class Main {
         }
         return "";
     });
+        Spark.get("/generarReportes", (request, response) ->{
+            Map<String, Object> attributes = new HashMap<>();
+            Usuario usuario = request.session(true).attribute("usuario");
+            attributes.put("usuario", usuario);
+            if(usuario != null){
+                attributes.put("links", UsuarioService.getInstance().find(usuario).
+                        getMisURLs());
+            }else{
+                attributes.put("links", new ArrayList<>());
+            }
+            return new ModelAndView(attributes, "panelAdmin.ftl");
+        }, freeMarkerEngine);
 
     }
     private static void createEntities(){
@@ -177,6 +195,8 @@ public class Main {
         UsuarioService.getInstance().crear(adminUser);
         UsuarioService.getInstance().crear(guessUser);
     }
+
+
 
     private static void encriptingCookies(Request request, Map<String, Object> attributes) {
         attributes.put("editable", "no");
