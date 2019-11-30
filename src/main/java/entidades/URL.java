@@ -21,6 +21,13 @@ public class URL implements Serializable {
     public URL(String urlReferencia){
         this.urlReferencia = urlReferencia;
     }
+    public URL(String urlGenerada, String urlReferencia, int cantAccesos, Usuario usuario) {
+        this.urlGenerada = urlGenerada;
+        this.urlReferencia = urlReferencia;
+        this.cantAccesos = cantAccesos;
+        this.usuario = usuario;
+    }
+
     public URL(long id, String urlGenerada, String urlReferencia, int cantAccesos) {
         this.id = id;
         this.urlGenerada = urlGenerada;

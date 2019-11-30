@@ -19,10 +19,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static spark.Spark.*;
 public class Main {
@@ -91,7 +88,27 @@ public class Main {
             Usuario usuario = null;
             String username = request.queryParams("username");
             String password = request.queryParams("password");
-            encriptarUsuario(usuarios, usuario, username, password, request, response);
+            for (Usuario usr : usuarios) {
+                System.out.println(usr.toString());
+                if (username.equalsIgnoreCase(usr.getUsername()) && password.equals(usr.getPassword())) {
+                    usuario = new Usuario(usr.getUsername(), usr.getNombre(), usr.getApellido(), usr.getPassword(), usr.isAdministrator());
+                    int recordar = (request.queryParams("recordar") != null ? 86400 : 1000);
+                    StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
+                    textEncryptor.setPassword(encriptorKey);
+                    String encriptedUsername = textEncryptor.encrypt(usuario.getUsername());
+                    String encriptedPassword = textEncryptor.encrypt(usuario.getPassword());
+                    String encriptedName = textEncryptor.encrypt(usuario.getNombre());
+                    String encriptedLastName = textEncryptor.encrypt(usuario.getApellido());
+                    String encriptedIsAdmin = textEncryptor.encrypt(String.valueOf(usuario.isAdministrator()));
+                    response.cookie("/", "username", encriptedUsername, recordar, false);
+                    response.cookie("/", "password", encriptedPassword, recordar, false);
+                    response.cookie("/", "nombre", encriptedName, recordar, false);
+                    response.cookie("/", "apellido", encriptedLastName, recordar, false);
+                    response.cookie("/", "isadmin", encriptedIsAdmin, recordar, false);
+                    response.redirect("/home");
+
+                }
+            }
             session.attribute("usuario", usuario);
             //redireccionado a la otra URL.
             response.redirect("/login");
@@ -174,12 +191,14 @@ public class Main {
                 "admin",
                 true
         );
-        attributes.put("usuario", adminUser);
-        if(adminUser != null){
-            attributes.put("links", UsuarioService.getInstance().find(adminUser.getUsername()).getMisURLs());
+        attributes.put("usuario", usuario);
+        URL urlAux = new URL("\rd\bg", "https://www.amazon.com/", 1, adminUser);
+        ArrayList<URL> urlArrayList = new ArrayList<URL>();
+        urlArrayList.add(urlAux);
+        if(usuario != null){
+            attributes.put("links", urlArrayList);
         }else{
-
-            attributes.put("links", new ArrayList<>());
+            attributes.put("links", urlArrayList);
         }
         return new ModelAndView(attributes, "panelAdmin.ftl");
     }, freeMarkerEngine);
