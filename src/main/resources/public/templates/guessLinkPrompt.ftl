@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<title>QR</title>
+<html lang="en">
+
+<script src="js/qrcode.min.js"></script>
 <a href="https://www.instagram.com/fria.js/?hl=es-la"></a>
 <div id="qrcode"></div>
 <script type="text/javascript">
@@ -29,3 +39,4 @@
         </script>
     </#list>
 </#if>
+</html>

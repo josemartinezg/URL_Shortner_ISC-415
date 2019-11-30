@@ -22,6 +22,15 @@ public class Acceso implements Serializable {
     private Set<SistemaOperativo> misSOs;
 
     public Acceso(){}
+    public Acceso(String navegador, String sistemaOperativo, String ipCliente,
+                  Date fechaHoraAcceso, URL urls) {
+        this.navegador = navegador;
+        this.sistemaOperativo = sistemaOperativo;
+        this.ipCliente = ipCliente;
+        this.fechaHoraAcceso = fechaHoraAcceso;
+        this.urls = urls;
+    }
+
     public Acceso(int id, String navegador, String sistemaOperativo, String ipCliente, Date fechaHoraAcceso) {
         this.id = id;
         this.navegador = navegador;

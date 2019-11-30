@@ -1,18 +1,24 @@
 package main;
+import entidades.Acceso;
 import entidades.URL;
 import entidades.Usuario;
 import freemarker.template.Configuration;
 import org.jasypt.util.text.StrongTextEncryptor;
+import services.AccesoService;
 import services.DataBaseService;
 import services.URLService;
 import services.UsuarioService;
 import spark.*;
 import spark.template.freemarker.FreeMarkerEngine;
+import ua_parser.Client;
+import ua_parser.Parser;
 import utils.Encoder;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +46,9 @@ public class Main {
         Spark.get("/home", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Home");
+            List<Usuario> usuarios = UsuarioService.getInstance().findAll();
+            attributes.put("articulos", usuarios);
+            encriptingCookies(request, attributes);
             return new ModelAndView(attributes, "home.ftl");
         }, freeMarkerEngine);
 
@@ -105,7 +114,7 @@ public class Main {
             //usuario.getMyAddresses().add(ipAddress);
         }
         /*Verificar mas tarde... Mientra tanto, él acorta.*/
-        //URLService.getInstance().crear(url);
+        URLService.getInstance().crear(url);
         UsuarioService.getInstance().editar(usuario);
         response.redirect("/vistaQrProvisional");
         return "";
@@ -123,6 +132,28 @@ public class Main {
         }
         return new ModelAndView(attributes, "guessLinkPrompt.ftl");
     }, freeMarkerEngine);
+
+    Spark.get("/rd/:code", (request, response) ->{
+       String urlGenerada = request.pathInfo();
+        System.out.println(urlGenerada);
+        URL url = URLService.getInstance().selectUrlGenerada(urlGenerada);
+        if (url != null){
+            Parser parser = new Parser();
+            Client client = parser.parse(request.userAgent());
+            String ipCliente = request.ip();
+            String navegador = client.userAgent.family;
+            String sistemaOperativo = client.os.family;
+            Date fechaHora = new Date(System.currentTimeMillis());
+            System.out.println(sistemaOperativo);
+            Acceso acceso = new Acceso(navegador, sistemaOperativo, ipCliente, fechaHora, url);
+            AccesoService.getInstance().crear(acceso);
+            response.redirect("http://" + url.geturlReferencia());
+        }else{
+            response.redirect("/");
+        }
+        return "";
+    });
+
     }
     private static void createEntities(){
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("MiUnidadPersistencia");
@@ -145,6 +176,25 @@ public class Main {
         );
         UsuarioService.getInstance().crear(adminUser);
         UsuarioService.getInstance().crear(guessUser);
+    }
+
+    private static void encriptingCookies(Request request, Map<String, Object> attributes) {
+        attributes.put("editable", "no");
+        StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
+        textEncryptor.setPassword(encriptorKey);
+        Usuario usuario;
+        if(request.cookie("username") != null){
+            usuario = new Usuario(
+                    textEncryptor.decrypt(request.cookie("username")),
+                    textEncryptor.decrypt(request.cookie("nombre")),
+                    textEncryptor.decrypt(request.cookie("apellido")),
+                    textEncryptor.decrypt(request.cookie("password")),
+                    Boolean.parseBoolean(textEncryptor.decrypt(request.cookie("isadmin")))
+            );
+            attributes.put("usuario", usuario);
+        }else{
+            attributes.put("usuario", "");
+        }
     }
 
     public static void encriptarUsuario(List<Usuario> usuarios, Usuario usuario, String username, String password,

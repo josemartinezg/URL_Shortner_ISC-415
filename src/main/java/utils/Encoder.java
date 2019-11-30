@@ -24,8 +24,8 @@ public class Encoder {
         long urlCurrentIndex = Long.parseLong(Integer.toString(URLService.getInstance().findAll().size()+1));
         String currentIndexedUrl = "/chinde.link/" + Long.toString(urlCurrentIndex);
         if (urlToIndex.containsKey(urlReferencia)){
-            System.out.println("http://tinyurl.com/"+base62Encode(urlToIndex.get(urlReferencia)));
-            return "http://tinyurl.com/" + base62Encode(urlToIndex.get(urlReferencia));
+            System.out.println("/rd/"+base62Encode(urlToIndex.get(urlReferencia)));
+            return "/rd/" + base62Encode(urlToIndex.get(urlReferencia));
         }else{
             indexToUrl.put(urlCurrentIndex, urlReferencia);
             urlToIndex.put(urlReferencia, urlCurrentIndex);
@@ -34,9 +34,9 @@ public class Encoder {
            // url.seturlGenerada("/chinde.link/"+base62Encode(urlToIndex.get(urlReferencia)));
 //            URLService.getInstance().crear(url);
             //Controladora.getInstance().getMisUrls().add(url);
-            String url2 = "/chinde.link/"+base62Encode(urlToIndex.get(urlReferencia));
+            String url2 = "/rd/"+base62Encode(urlToIndex.get(urlReferencia));
             System.out.println(urlToIndex.get(urlReferencia));
-            System.out.println("/shorty.com/"+base62Encode(urlToIndex.get(urlReferencia)));
+            System.out.println("/rd/"+base62Encode(urlToIndex.get(urlReferencia)));
             return url2;
         }
     }
