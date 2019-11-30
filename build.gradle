@@ -30,6 +30,8 @@ dependencies {
     implementation "com.sun.xml.bind:jaxb-core:2.2.11"
     implementation "com.sun.xml.bind:jaxb-impl:2.2.11"
     implementation "javax.activation:activation:1.1.1"
+    //Parser para obtener informacion del cliente (navegador).
+    compile 'com.github.ua-parser:uap-java:1.4.3'
 }
 shadowJar{
     baseName = 'URL_Shortner_ISC-415'

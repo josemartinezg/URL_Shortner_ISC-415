@@ -29,7 +29,10 @@
 <nav class="navbar navbar-light bg-light static-top">
     <div class="container">
         <a class="navbar-brand" href="#">chinde.link</a>
-        <a class="btn btn-primary" href="#">Sign In</a>
+        <#if usuario != "">
+            ${usuario.username}
+        </#if>
+        <a class="btn btn-primary" href="/login">Log/Sign In</a>
     </div>
 </nav>
 
