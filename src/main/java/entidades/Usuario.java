@@ -1,6 +1,9 @@
 package entidades;
 
+import jdk.internal.jline.internal.Urls;
+
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 @Entity
@@ -24,6 +27,15 @@ public class Usuario implements Serializable{
         this.apellido = apellido;
         this.password = password;
         this.administrator = administrator;
+    }
+    public Usuario(String username, String nombre, String apellido,
+                   String password, boolean administrator, Set<URL> misUrls) {
+        this.username = username;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.password = password;
+        this.administrator = administrator;
+        this.misURLs = misUrls;
     }
 
     public String getUsername() {

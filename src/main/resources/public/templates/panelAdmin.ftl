@@ -164,14 +164,16 @@
                             <tbody>
                                 <#if links?size != 0>
                                     <#list links as link>
-                                        <td><a href="/rd/${link.urlGenerada}">${link.urlReferencia}</a></td>
-                                        <td><a href="/rd/${link.urlGenerada}">/rd/${link.urlGenerada}</a></td>
-                                        <td>${link.usuario.username}</td>
-                                        <td ><a href="#modaVaina">Codigo QR</a></td>
-                                        <td><a href="/generarReportes">
-                                                Reportes
-                                            </a>
-                                        </td>
+                                        <tr>
+                                            <td><a href="/rd/${link.urlGenerada}">${link.urlReferencia}</a></td>
+                                            <td><a href="/rd/${link.urlGenerada}">/rd/${link.urlGenerada}</a></td>
+                                            <td>${link.usuario.username}</td>
+                                            <td ><a href="#modaVaina">Codigo QR</a></td>
+                                            <td><a href="/generarReportes">
+                                                    Reportes
+                                                </a>
+                                            </td>
+                                        </tr>
                                     </#list>
                                 </#if>
 
@@ -193,14 +195,26 @@
                 <div class="card mb-3">
                     <div class="card-header">
                         <i class="fas fa-chart-pie"></i>
-                        Pie Chart Example</div>
+                        Visitas por Navegador</div>
                     <div class="card-body">
-                        <canvas id="myPieChart" width="100%" height="100"></canvas>
+                        <canvas id="myBrowserPieChart" width="100%" height="100"></canvas>
                     </div>
                     <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
                 </div>
             </div>
         </div>
+<#--        <div class="col-lg-4">-->
+<#--                <div class="card mb-3">-->
+<#--                    <div class="card-header">-->
+<#--                        <i class="fas fa-chart-pie"></i>-->
+<#--                        Visitas por Sistema Operativo</div>-->
+<#--                    <div class="card-body">-->
+<#--                        <canvas id="myOsPiChart" width="100%" height="100"></canvas>-->
+<#--                    </div>-->
+<#--                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>-->
+<#--                </div>-->
+<#--            </div>-->
+<#--        </div>-->
         <!-- /.container-fluid -->
             <!-- Area Chart Example-->
             <div class="card mb-3">

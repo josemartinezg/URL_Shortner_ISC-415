@@ -151,6 +151,7 @@ public class Main {
                     textEncryptor.decrypt(request.cookie("apellido")),
                     textEncryptor.decrypt(request.cookie("password")),
                     Boolean.parseBoolean(textEncryptor.decrypt(request.cookie("isadmin"))));
+           usuario.setMisURLs(new HashSet<URL>());
             url.setUsuario(usuario);
             usuario.getMisURLs().add(url);
         }else{
@@ -178,6 +179,7 @@ public class Main {
                     textEncryptor.decrypt(request.cookie("apellido")),
                     textEncryptor.decrypt(request.cookie("password")),
                     Boolean.parseBoolean(textEncryptor.decrypt(request.cookie("isadmin"))));
+            usuario.setMisURLs(new HashSet<URL>());
             attributes.put("usuario", usuario);
         }else{
             attributes.put("usuario", "");
@@ -194,9 +196,9 @@ public class Main {
         ArrayList<URL> urlArrayList = new ArrayList<URL>();
         urlArrayList.add(urlAux);
         if(usuario != null){
-            attributes.put("links", urlArrayList);
+            attributes.put("links", URLService.getInstance().selectUrlByUsername(usuario.getUsername()));
         }else{
-            attributes.put("links", urlArrayList);
+            attributes.put("links", new ArrayList<>());
         }
         return new ModelAndView(attributes, "panelAdmin.ftl");
     }, freeMarkerEngine);
