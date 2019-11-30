@@ -26,7 +26,8 @@ public class Main {
     private static String encriptorKey = "aHaf920@_9";
 
     public static void main(String[] args){
-
+        Spark.staticFileLocation("/publico");
+        Spark.port(getHerokuAssignedPort());
         /*Inicializacion de la base de datos.*/
         DataBaseService.getInstance().init();
         createEntities();
@@ -313,6 +314,8 @@ public class Main {
             }
         }
     }
+    static int getHerokuAssignedPort() { ProcessBuilder processBuilder = new ProcessBuilder(); if (processBuilder.environment().get("PORT") != null) { return Integer.parseInt(processBuilder.environment().get("PORT")); } return 4567; }
+
 }
 
 

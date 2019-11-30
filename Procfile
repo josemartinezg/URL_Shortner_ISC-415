@@ -1,0 +1,1 @@
+web: java -jar build/libs/URL_Shortner_ISC-415
