@@ -1,7 +1,5 @@
 package entidades;
 
-import jdk.internal.jline.internal.Urls;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
