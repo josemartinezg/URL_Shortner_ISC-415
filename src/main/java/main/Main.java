@@ -207,7 +207,8 @@ public class Main {
 
         Spark.get("/homeLink", (request, response) ->{
             Map<String, Object> attributes = new HashMap<>();
-
+            Usuario usuario = request.session(true).attribute("usuario");
+            attributes.put("usuario", usuario);
             return new ModelAndView(attributes, "homeLink.ftl");
         }, freeMarkerEngine);
 
@@ -225,7 +226,7 @@ public class Main {
             System.out.println(sistemaOperativo);
             Acceso acceso = new Acceso(navegador, sistemaOperativo, ipCliente, fechaHora, url);
             AccesoService.getInstance().crear(acceso);
-            response.redirect("http://" + url.geturlReferencia());
+            response.redirect(url.geturlReferencia());
         }else{
             response.redirect("/");
         }

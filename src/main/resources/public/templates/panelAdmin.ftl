@@ -165,8 +165,8 @@
                                 <#if links?size != 0>
                                     <#list links as link>
                                         <tr>
-                                            <td><a href="/rd/${link.urlGenerada}">${link.urlReferencia}</a></td>
-                                            <td><a href="/rd/${link.urlGenerada}">/rd/${link.urlGenerada}</a></td>
+                                            <td><a href="${link.urlGenerada}">${link.urlReferencia}</a></td>
+                                            <td><a href="${link.urlGenerada}">${link.urlGenerada}</a></td>
                                             <td>${link.usuario.username}</td>
                                             <td ><a href="#modaVaina">Codigo QR</a></td>
                                             <td><a href="/generarReportes">
