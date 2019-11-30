@@ -124,8 +124,16 @@ public class Main {
         URL url = new URL(urlReferencia);
         String urlGenerada = encoder.encode(urlReferencia);
         url.seturlGenerada(urlGenerada);
-        Usuario usuario = request.session().attribute("usuario");
-        if (usuario != null){
+        StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
+        textEncryptor.setPassword(encriptorKey);
+        Usuario usuario;
+        if(request.cookie("username") != null){
+            usuario = new Usuario(
+                    textEncryptor.decrypt(request.cookie("username")),
+                    textEncryptor.decrypt(request.cookie("nombre")),
+                    textEncryptor.decrypt(request.cookie("apellido")),
+                    textEncryptor.decrypt(request.cookie("password")),
+                    Boolean.parseBoolean(textEncryptor.decrypt(request.cookie("isadmin"))));
             url.setUsuario(usuario);
             usuario.getMisURLs().add(url);
         }else{
@@ -157,7 +165,6 @@ public class Main {
         }else{
             attributes.put("usuario", "");
         }
-        Usuario usuario = request.session(true).attribute("usuario");
         Usuario adminUser = new Usuario(
                 "admin",
                 "admin",
