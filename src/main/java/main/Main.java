@@ -65,7 +65,27 @@ public class Main {
             Usuario usuario = null;
             String username = request.queryParams("username");
             String password = request.queryParams("password");
-            encriptarUsuario(usuarios, usuario, username, password, request, response);
+            for (Usuario usr : usuarios) {
+                System.out.println(usr.toString());
+                if (username.equalsIgnoreCase(usr.getUsername()) && password.equals(usr.getPassword())) {
+                    usuario = new Usuario(usr.getUsername(), usr.getNombre(), usr.getApellido(), usr.getPassword(), usr.isAdministrator());
+                    int recordar = (request.queryParams("recordar") != null ? 86400 : 1000);
+                    StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
+                    textEncryptor.setPassword(encriptorKey);
+                    String encriptedUsername = textEncryptor.encrypt(usuario.getUsername());
+                    String encriptedPassword = textEncryptor.encrypt(usuario.getPassword());
+                    String encriptedName = textEncryptor.encrypt(usuario.getNombre());
+                    String encriptedLastName = textEncryptor.encrypt(usuario.getApellido());
+                    String encriptedIsAdmin = textEncryptor.encrypt(String.valueOf(usuario.isAdministrator()));
+                    response.cookie("/", "username", encriptedUsername, recordar, false);
+                    response.cookie("/", "password", encriptedPassword, recordar, false);
+                    response.cookie("/", "nombre", encriptedName, recordar, false);
+                    response.cookie("/", "apellido", encriptedLastName, recordar, false);
+                    response.cookie("/", "isadmin", encriptedIsAdmin, recordar, false);
+                    response.redirect("/home");
+
+                }
+            }
             session.attribute("usuario", usuario);
             //redireccionado a la otra URL.
             response.redirect("/login");
