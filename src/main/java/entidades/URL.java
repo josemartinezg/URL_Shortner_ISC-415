@@ -13,11 +13,14 @@ public class URL implements Serializable {
     private String urlReferencia;
     private int cantAccesos;
     @ManyToOne(optional = false)
-    private Usuario usuarios;
-    @OneToMany(mappedBy = "urls", fetch = FetchType.LAZY)
+    private Usuario usuario;
+    @OneToMany(mappedBy = "urls", fetch = FetchType.EAGER)
     private Set<Acceso> misURLs;
 
     public URL(){}
+    public URL(String urlReferencia){
+        this.urlReferencia = urlReferencia;
+    }
     public URL(long id, String urlGenerada, String urlReferencia, int cantAccesos) {
         this.id = id;
         this.urlGenerada = urlGenerada;
@@ -64,11 +67,11 @@ public class URL implements Serializable {
         this.misURLs = misURLs;
     }
 
-    public Usuario getUsuarios() {
-        return usuarios;
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setUsuarios(Usuario usuarios) {
-        this.usuarios = usuarios;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

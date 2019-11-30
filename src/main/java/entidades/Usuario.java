@@ -11,8 +11,10 @@ public class Usuario implements Serializable{
     private String apellido;
     private String password;
     private boolean administrator;
-    @OneToMany(mappedBy = "usuarios", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
     private Set<URL> misURLs;
+//    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
+//    private  Set<IpAddress> myAddresses;
 
     public  Usuario(){}
     public Usuario(String username, String nombre, String apellido,
@@ -71,5 +73,13 @@ public class Usuario implements Serializable{
     public void setMisURLs(Set<URL> misURLs) {
         this.misURLs = misURLs;
     }
+
+//    public Set<IpAddress> getMyAddresses() {
+//        return myAddresses;
+//    }
+//
+//    public void setMyAddresses(Set<IpAddress> myAddresses) {
+//        this.myAddresses = myAddresses;
+//    }
 
 }

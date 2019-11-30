@@ -1,15 +1,19 @@
 package main;
+import entidades.URL;
 import entidades.Usuario;
 import freemarker.template.Configuration;
 import org.jasypt.util.text.StrongTextEncryptor;
 import services.DataBaseService;
+import services.URLService;
 import services.UsuarioService;
 import spark.*;
 import spark.template.freemarker.FreeMarkerEngine;
+import utils.Encoder;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,6 +87,42 @@ public class Main {
 
             return "";
         });
+    Spark.post("/generarURL", (request, response) -> {
+        Encoder encoder = new Encoder();
+        String urlReferencia = request.queryParams("urlReferencia");
+        Usuario guess = UsuarioService.getInstance().find("guess");
+        URL url = new URL(urlReferencia);
+        String urlGenerada = encoder.encode(urlReferencia);
+        url.seturlGenerada(urlGenerada);
+        Usuario usuario = request.session().attribute("usuario");
+        if (usuario != null){
+            url.setUsuario(usuario);
+            usuario.getMisURLs().add(url);
+        }else{
+            url.setUsuario(UsuarioService.getInstance().find("guess"));
+            guess.getMisURLs().add(url);
+            usuario = guess;
+            //usuario.getMyAddresses().add(ipAddress);
+        }
+        /*Verificar mas tarde... Mientra tanto, él acorta.*/
+        //URLService.getInstance().crear(url);
+        UsuarioService.getInstance().editar(usuario);
+        response.redirect("/vistaQrProvisional");
+        return "";
+    });
+    Spark.get("/vistaQrProvisional", (request, response) ->{
+        Map<String, Object> attributes = new HashMap<>();
+
+        Usuario usuario = request.session(true).attribute("usuario");
+        attributes.put("usuario", usuario);
+        if(usuario != null){
+            attributes.put("links", UsuarioService.getInstance().find(usuario).
+                    getMisURLs());
+        }else{
+            attributes.put("links", new ArrayList<>());
+        }
+        return new ModelAndView(attributes, "guessLinkPrompt.ftl");
+    }, freeMarkerEngine);
     }
     private static void createEntities(){
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("MiUnidadPersistencia");
@@ -96,7 +136,15 @@ public class Main {
                 "admin",
                 true
         );
+        Usuario guessUser = new Usuario(
+                "guess",
+                "guess",
+                "guess",
+                "guess",
+                false
+        );
         UsuarioService.getInstance().crear(adminUser);
+        UsuarioService.getInstance().crear(guessUser);
     }
 
     public static void encriptarUsuario(List<Usuario> usuarios, Usuario usuario, String username, String password,

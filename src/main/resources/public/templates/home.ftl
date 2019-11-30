@@ -42,10 +42,10 @@
                 <h1 class="mb-5">Acorta tu URL y comparte tu contenido con tu audiencia facilmente con enlaces mas atractivos.</h1>
             </div>
             <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
-                <form>
+                <form method="post" action="/generarURL"  enctype="application/x-www-form-urlencoded">
                     <div class="form-row">
                         <div class="col-12 col-md-9 mb-2 mb-md-0">
-                            <input type="email" class="form-control form-control-lg" placeholder="Penco e' Link">
+                            <input name="urlReferencia" type="text" class="form-control form-control-lg" placeholder="Penco e' Link">
                         </div>
                         <div class="col-12 col-md-3">
                             <button type="submit" class="btn btn-block btn-lg btn-primary">Chin de Link</button>
