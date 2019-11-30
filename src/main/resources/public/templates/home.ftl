@@ -51,7 +51,7 @@
                             <input name="urlReferencia" type="text" class="form-control form-control-lg" placeholder="Penco e' Link">
                         </div>
                         <div class="col-12 col-md-3">
-                            <button type="submit" class="btn btn-block btn-lg btn-primary">Chin de Link</button>
+                            <button type="submit" class="btn btn-block btn-lg btn-primary" data-toggle="modal" data-target="#modalNuevoLink">Chin de Link</button>
                         </div>
                     </div>
                 </form>
@@ -61,39 +61,7 @@
 </header>
 
 <!-- Icons Grid -->
-<section class="features-icons bg-light text-center">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                    <div class="features-icons-icon d-flex">
-                        <i class="icon-screen-desktop m-auto text-primary"></i>
-                    </div>
-                    <h3>Version Gratuita</h3>
-                    <p class="lead mb-0">Aqui hablamos de la version gratuita</p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                    <div class="features-icons-icon d-flex">
-                        <i class="icon-layers m-auto text-primary"></i>
-                    </div>
-                    <h3>Version Insights</h3>
-                    <p class="lead mb-0">Aqui hablamos del paquete Insights</p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="features-icons-item mx-auto mb-0 mb-lg-3">
-                    <div class="features-icons-icon d-flex">
-                        <i class="icon-check m-auto text-primary"></i>
-                    </div>
-                    <h3>Version Campaign</h3>
-                    <p class="lead mb-0">Aqui hablamos del paquete Campaign</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+<section class="features-icons bg-light text-center"> </section>
 
 <!-- Image Showcases -->
 <section class="showcase">

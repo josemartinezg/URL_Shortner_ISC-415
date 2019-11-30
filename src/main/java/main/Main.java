@@ -24,6 +24,7 @@ import java.util.*;
 import static spark.Spark.*;
 public class Main {
     private static String encriptorKey = "aHaf920@_9";
+
     public static void main(String[] args){
 
         /*Inicializacion de la base de datos.*/
@@ -35,6 +36,12 @@ public class Main {
         configuration.setClassForTemplateLoading(Main.class, "/public/templates");
         FreeMarkerEngine freeMarkerEngine = new FreeMarkerEngine(configuration);
 
+        before("*", (request, response) -> {
+            Session session = request.session(true);
+            if(session.attribute("usuario") == null)
+                session.attribute("usuario", "");
+        });
+
         Spark.get("/", (request, response) -> {
             response.redirect("/home");
             return "";
@@ -43,6 +50,22 @@ public class Main {
         Spark.get("/home", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Home");
+            List<Usuario> usuarios = UsuarioService.getInstance().findAll();
+            StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
+            textEncryptor.setPassword(encriptorKey);
+            Usuario usuario;
+            if(request.cookie("username") != null){
+                usuario = new Usuario(
+                        textEncryptor.decrypt(request.cookie("username")),
+                        textEncryptor.decrypt(request.cookie("nombre")),
+                        textEncryptor.decrypt(request.cookie("apellido")),
+                        textEncryptor.decrypt(request.cookie("password")),
+                        Boolean.parseBoolean(textEncryptor.decrypt(request.cookie("isadmin"))));
+                attributes.put("usuario", usuario);
+            }else{
+                attributes.put("usuario", "");
+            }
+            attributes.put("articulos", usuarios);
             encriptingCookies(request, attributes);
             return new ModelAndView(attributes, "home.ftl");
         }, freeMarkerEngine);
@@ -118,8 +141,16 @@ public class Main {
         URL url = new URL(urlReferencia);
         String urlGenerada = encoder.encode(urlReferencia);
         url.seturlGenerada(urlGenerada);
-        Usuario usuario = request.session().attribute("usuario");
-        if (usuario != null){
+        StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
+        textEncryptor.setPassword(encriptorKey);
+        Usuario usuario;
+        if(request.cookie("username") != null){
+            usuario = new Usuario(
+                    textEncryptor.decrypt(request.cookie("username")),
+                    textEncryptor.decrypt(request.cookie("nombre")),
+                    textEncryptor.decrypt(request.cookie("apellido")),
+                    textEncryptor.decrypt(request.cookie("password")),
+                    Boolean.parseBoolean(textEncryptor.decrypt(request.cookie("isadmin"))));
             url.setUsuario(usuario);
             usuario.getMisURLs().add(url);
         }else{
@@ -137,7 +168,20 @@ public class Main {
     Spark.get("/vistaQrProvisional", (request, response) ->{
         Map<String, Object> attributes = new HashMap<>();
 
-        Usuario usuario = request.session(true).attribute("usuario");
+        StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
+        textEncryptor.setPassword(encriptorKey);
+        Usuario usuario = null;
+        if(request.cookie("username") != null){
+            usuario = new Usuario(
+                    textEncryptor.decrypt(request.cookie("username")),
+                    textEncryptor.decrypt(request.cookie("nombre")),
+                    textEncryptor.decrypt(request.cookie("apellido")),
+                    textEncryptor.decrypt(request.cookie("password")),
+                    Boolean.parseBoolean(textEncryptor.decrypt(request.cookie("isadmin"))));
+            attributes.put("usuario", usuario);
+        }else{
+            attributes.put("usuario", "");
+        }
         Usuario adminUser = new Usuario(
                 "admin",
                 "admin",
