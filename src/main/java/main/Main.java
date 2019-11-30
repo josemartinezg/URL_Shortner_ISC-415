@@ -154,16 +154,18 @@ public class Main {
            usuario.setMisURLs(new HashSet<URL>());
             url.setUsuario(usuario);
             usuario.getMisURLs().add(url);
+            response.redirect("/vistaQrProvisional");
         }else{
             url.setUsuario(UsuarioService.getInstance().find("guess"));
             guess.getMisURLs().add(url);
             usuario = guess;
+            response.redirect("/homeLink");
             //usuario.getMyAddresses().add(ipAddress);
         }
         /*Verificar mas tarde... Mientra tanto, él acorta.*/
         URLService.getInstance().crear(url);
         UsuarioService.getInstance().editar(usuario);
-        response.redirect("/vistaQrProvisional");
+        response.redirect("/home");
         return "";
     });
     Spark.get("/vistaQrProvisional", (request, response) ->{
@@ -202,6 +204,12 @@ public class Main {
         }
         return new ModelAndView(attributes, "panelAdmin.ftl");
     }, freeMarkerEngine);
+
+        Spark.get("/homeLink", (request, response) ->{
+            Map<String, Object> attributes = new HashMap<>();
+
+            return new ModelAndView(attributes, "homeLink.ftl");
+        }, freeMarkerEngine);
 
     Spark.get("/rd/:code", (request, response) ->{
        String urlGenerada = request.pathInfo();
