@@ -1,1 +1,1 @@
-web: java -jar build/libs/URL_Shortner_ISC-415
+web: java -jar build/libs/URL_Shortner_ISC-415.jar
