@@ -48,7 +48,7 @@
                             <input name="urlReferencia" type="text" class="form-control form-control-lg" placeholder="Penco e' Link">
                         </div>
                         <div class="col-12 col-md-3">
-                            <button type="submit" class="btn btn-block btn-lg btn-primary">Chin de Link</button>
+                            <button type="submit" class="btn btn-block btn-lg btn-primary" data-toggle="modal" data-target="#modalNuevoLink">Chin de Link</button>
                         </div>
                     </div>
                 </form>
@@ -57,40 +57,29 @@
     </div>
 </header>
 
-<!-- Icons Grid -->
-<section class="features-icons bg-light text-center">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                    <div class="features-icons-icon d-flex">
-                        <i class="icon-screen-desktop m-auto text-primary"></i>
-                    </div>
-                    <h3>Version Gratuita</h3>
-                    <p class="lead mb-0">Aqui hablamos de la version gratuita</p>
-                </div>
+<!-- Modal -->
+<div class="modal fade" id="modalNuevoLink" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="col-lg-4">
-                <div class="features-icons-item mx-auto mb-5 mb-lg-0 mb-lg-3">
-                    <div class="features-icons-icon d-flex">
-                        <i class="icon-layers m-auto text-primary"></i>
-                    </div>
-                    <h3>Version Insights</h3>
-                    <p class="lead mb-0">Aqui hablamos del paquete Insights</p>
-                </div>
+            <div class="modal-body">
+                ...
             </div>
-            <div class="col-lg-4">
-                <div class="features-icons-item mx-auto mb-0 mb-lg-3">
-                    <div class="features-icons-icon d-flex">
-                        <i class="icon-check m-auto text-primary"></i>
-                    </div>
-                    <h3>Version Campaign</h3>
-                    <p class="lead mb-0">Aqui hablamos del paquete Campaign</p>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
-</section>
+</div>
+
+<!-- Icons Grid -->
+<section class="features-icons bg-light text-center"> </section>
 
 <!-- Image Showcases -->
 <section class="showcase">
