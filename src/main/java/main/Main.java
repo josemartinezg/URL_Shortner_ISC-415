@@ -168,7 +168,7 @@ public class Main {
            usuario.setMisURLs(new HashSet<URL>());
             url.setUsuario(usuario);
             usuario.getMisURLs().add(url);
-            response.redirect("/vistaQrProvisional");
+            response.redirect("/admin");
         }else{
             url.setUsuario(UsuarioService.getInstance().find("guess"));
             guess.getMisURLs().add(url);
@@ -182,7 +182,7 @@ public class Main {
         response.redirect("/home");
         return "";
     });
-        Spark.get("/vistaQrProvisional", (request, response) ->{
+    Spark.get("/admin", (request, response) ->{
         Map<String, Object> attributes = new HashMap<>();
 
         StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
@@ -221,7 +221,8 @@ public class Main {
 
         Spark.get("/homeLink", (request, response) ->{
             Map<String, Object> attributes = new HashMap<>();
-            Usuario usuario = request.session(true).attribute("usuario");
+            String username = request.session(true).attribute("usuario");
+            Usuario usuario = UsuarioService.getInstance().find(username);
             attributes.put("usuario", usuario);
             return new ModelAndView(attributes, "homeLink.ftl");
         }, freeMarkerEngine);
@@ -246,18 +247,19 @@ public class Main {
         }
         return "";
     });
-    Spark.get("/generarReportes", (request, response) ->{
-        Map<String, Object> attributes = new HashMap<>();
-        Usuario usuario = request.session(true).attribute("usuario");
-        attributes.put("usuario", usuario);
-        if(usuario != null){
-            attributes.put("links", UsuarioService.getInstance().find(usuario).
-                    getMisURLs());
-        }else{
-            attributes.put("links", new ArrayList<>());
-        }
-        return new ModelAndView(attributes, "panelAdmin.ftl");
-    }, freeMarkerEngine);
+        Spark.get("/generarReportes", (request, response) ->{
+            Map<String, Object> attributes = new HashMap<>();
+            String username = request.session(true).attribute("usuario");
+            Usuario usuario = UsuarioService.getInstance().find(username);
+            attributes.put("usuario", usuario);
+            if(usuario != null){
+                attributes.put("links", UsuarioService.getInstance().find(usuario).
+                        getMisURLs());
+            }else{
+                attributes.put("links", new ArrayList<>());
+            }
+            return new ModelAndView(attributes, "panelAdmin.ftl");
+        }, freeMarkerEngine);
 
     }
     private static void createEntities(){
