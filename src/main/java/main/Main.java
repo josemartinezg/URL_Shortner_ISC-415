@@ -48,6 +48,19 @@ public class Main {
             return "";
         });
 
+        Spark.get("/hacerLogout", (request, response) -> {
+            //creando cookie en para un minuto
+            Session session = request.session();
+            session.invalidate();
+            response.removeCookie("/", "username");
+            response.removeCookie("/", "nombre");
+            response.removeCookie("/", "apellido");
+            response.removeCookie("/", "password");
+            response.removeCookie("/", "isadmin");
+            response.redirect("/home");
+            return "";
+        });
+
         Spark.get("/home", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Home");
