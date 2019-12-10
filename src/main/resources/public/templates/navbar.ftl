@@ -3,9 +3,20 @@
     <div class="container">
         <a class="navbar-brand" href="/"><img src="../assets/img/chinde-logo.gif" alt="animated"/></a>
         <#if usuario != "">
-            ${usuario.username}
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    ${usuario.username}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                    <a class="dropdown-item" href="/vistaQrProvisional">Ver URLs</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item"  href="/hacerLogout">Log out</a>
+                </div>
+            </div>
         </#if>
-        <a class="btn btn-primary" href="/login">Log/Sign In</a>
+        <#if usuario == "">
+            <a class="btn btn-primary" href="/login">Log/Sign In</a>
+        </#if>
     </div>
 </nav>
 
