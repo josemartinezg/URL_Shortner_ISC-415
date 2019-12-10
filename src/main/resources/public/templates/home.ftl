@@ -26,15 +26,7 @@
 <body>
 
 <!-- Navigation -->
-<nav class="navbar navbar-light bg-light static-top">
-    <div class="container">
-        <a class="navbar-brand" href="#">chinde.link</a>
-        <#if usuario != "">
-            ${usuario.username}
-        </#if>
-        <a class="btn btn-primary" href="/login">Log/Sign In</a>
-    </div>
-</nav>
+<#include "navbar.ftl">
 
 <!-- Masthead -->
 <header class="masthead text-white text-center">
