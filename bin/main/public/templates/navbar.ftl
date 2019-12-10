@@ -5,7 +5,7 @@
         <#if usuario != "">
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    ${usuario.username}
+                    <h4><strong>${usuario.username}</strong></h4>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                     <a class="dropdown-item" href="/vistaQrProvisional">Ver URLs</a>
