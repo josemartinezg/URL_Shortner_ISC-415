@@ -27,6 +27,7 @@ public class Main {
 
     public static void main(String[] args){
         Spark.port(getHerokuAssignedPort());
+        Spark.staticFileLocation("/public");
         /*Inicializacion de la base de datos.*/
         DataBaseService.getInstance().init();
         createEntities();
@@ -43,6 +44,19 @@ public class Main {
         });
 
         Spark.get("/", (request, response) -> {
+            response.redirect("/home");
+            return "";
+        });
+
+        Spark.get("/hacerLogout", (request, response) -> {
+            //creando cookie en para un minuto
+            Session session = request.session();
+            session.invalidate();
+            response.removeCookie("/", "username");
+            response.removeCookie("/", "nombre");
+            response.removeCookie("/", "apellido");
+            response.removeCookie("/", "password");
+            response.removeCookie("/", "isadmin");
             response.redirect("/home");
             return "";
         });
