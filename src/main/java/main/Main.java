@@ -26,7 +26,6 @@ public class Main {
     private static String encriptorKey = "aHaf920@_9";
 
     public static void main(String[] args){
-        Spark.staticFileLocation("/publico");
         Spark.port(getHerokuAssignedPort());
         /*Inicializacion de la base de datos.*/
         DataBaseService.getInstance().init();
@@ -155,7 +154,7 @@ public class Main {
            usuario.setMisURLs(new HashSet<URL>());
             url.setUsuario(usuario);
             usuario.getMisURLs().add(url);
-            response.redirect("/vistaQrProvisional");
+            response.redirect("/admin");
         }else{
             url.setUsuario(UsuarioService.getInstance().find("guess"));
             guess.getMisURLs().add(url);
@@ -169,7 +168,7 @@ public class Main {
         response.redirect("/home");
         return "";
     });
-    Spark.get("/vistaQrProvisional", (request, response) ->{
+    Spark.get("/admin", (request, response) ->{
         Map<String, Object> attributes = new HashMap<>();
 
         StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
@@ -208,7 +207,8 @@ public class Main {
 
         Spark.get("/homeLink", (request, response) ->{
             Map<String, Object> attributes = new HashMap<>();
-            Usuario usuario = request.session(true).attribute("usuario");
+            String username = request.session(true).attribute("usuario");
+            Usuario usuario = UsuarioService.getInstance().find(username);
             attributes.put("usuario", usuario);
             return new ModelAndView(attributes, "homeLink.ftl");
         }, freeMarkerEngine);
@@ -235,7 +235,8 @@ public class Main {
     });
         Spark.get("/generarReportes", (request, response) ->{
             Map<String, Object> attributes = new HashMap<>();
-            Usuario usuario = request.session(true).attribute("usuario");
+            String username = request.session(true).attribute("usuario");
+            Usuario usuario = UsuarioService.getInstance().find(username);
             attributes.put("usuario", usuario);
             if(usuario != null){
                 attributes.put("links", UsuarioService.getInstance().find(usuario).
