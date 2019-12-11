@@ -34,12 +34,12 @@
         </li>
     </ul>
     <#if usuario != "">
-        <div class="dropdown ml-lg-5">
+        <div class="dropdown ml-lg-5 dropleft">
             <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <h4><strong>${usuario.username}</strong></h4>
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <a class="dropdown-item" href="/admin">Ver URLs</a>
+                <a class="dropdown-item" href="/home">Ir al Home</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item"  href="/hacerLogout">Log out</a>
             </div>
