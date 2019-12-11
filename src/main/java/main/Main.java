@@ -43,6 +43,12 @@ public class Main {
                 session.attribute("usuario", "");
         });
 
+        before("/admin", (request, response) -> {
+            if(request.cookie("username") == null)
+                response.redirect("/login");
+            return;
+        });
+
         Spark.get("/", (request, response) -> {
             response.redirect("/home");
             return "";
