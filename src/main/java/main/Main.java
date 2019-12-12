@@ -94,7 +94,6 @@ public class Main {
                 attributes.put("urlreferencia", urlReferencia);
                 attributes.put("urlgenerado", urlGenerado);
             }
-            System.out.println("Main 95 " + urlReferencia);
             attributes.put("articulos", usuarios);
             encriptingCookies(request, attributes);
             return new ModelAndView(attributes, "home.ftl");
@@ -169,9 +168,15 @@ public class Main {
             Encoder encoder = new Encoder();
             String urlReferencia = request.queryParams("urlReferencia");
             Usuario guess = UsuarioService.getInstance().find("guess");
-            URL url = new URL(urlReferencia);
-            String urlGenerada = encoder.encode(urlReferencia);
-            url.seturlGenerada(urlGenerada);
+            URL url = URLService.getInstance().selectUrlByUrlReferencia(urlReferencia);
+            Usuario usuarioCreador =  new Usuario();
+            if(url == null) {
+                url = new URL(urlReferencia);
+                String urlGenerada = encoder.encode(urlReferencia);
+                url.seturlGenerada(urlGenerada);
+            }else{
+                usuarioCreador = url.getUsuario();
+            }
             StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
             textEncryptor.setPassword(encriptorKey);
             Usuario usuario;
@@ -183,27 +188,28 @@ public class Main {
                         textEncryptor.decrypt(request.cookie("password")),
                         Boolean.parseBoolean(textEncryptor.decrypt(request.cookie("isadmin"))));
                usuario.setMisURLs(new HashSet<URL>());
-                url.setUsuario(usuario);
-                if(URLService.getInstance().selectUrlByUrlReferencia(urlReferencia) == null){
-                    usuario.getMisURLs().add(url);
-                }
-                response.redirect("/admin");
+               url.setUsuario(usuario);
+               usuario.getMisURLs().add(url);
             }else{
                 url.setUsuario(UsuarioService.getInstance().find("guess"));
-                if(URLService.getInstance().selectUrlByUrlReferencia(urlReferencia) == null){
-                    guess.getMisURLs().add(url);
-                }
+                guess.getMisURLs().add(url);
                 usuario = guess;
                 response.removeCookie("url_referencia");
                 response.cookie("/", "url_referencia", url.geturlReferencia(), 60, false);
                 //usuario.getMyAddresses().add(ipAddress);
             }
             /*Verificar mas tarde... Mientra tanto, él acorta.*/
-            if(URLService.getInstance().selectUrlByUrlReferencia(urlReferencia) == null){
+            System.out.println("Main 202: ");
+            System.out.println(usuarioCreador.getUsername());
+            if(usuarioCreador.getUsername() == null || !usuarioCreador.getUsername().equals(url.getUsuario().getUsername())){
                 URLService.getInstance().crear(url);
-                UsuarioService.getInstance().editar(usuario);
             }
-            response.redirect("/home");
+            UsuarioService.getInstance().editar(usuario);
+            if(request.cookie("username") != null){
+                response.redirect("/admin");
+            }else{
+                response.redirect("/home");
+            }
             return "";
         });
 

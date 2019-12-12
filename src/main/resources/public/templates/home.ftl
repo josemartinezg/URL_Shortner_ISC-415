@@ -57,14 +57,14 @@
                     <br/>
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="text-black-50"><strong>URL resultado</strong></h4>
+                            <h3 class="text-black-50"><strong>URL resultado</strong></h3>
                         </div>
                         <div class="card-body">
                             <p class="text-black-50">${urlreferencia}</p>
                             <p class="text-black-50">Our current domain + ${urlgenerado}</p>
                         </div>
                         <div class="card-footer">
-                            <a class="btn btn-danger text-white" href="/homeWithoutURL">
+                            <a class="btn btn-danger btn-lg text-white" href="/homeWithoutURL">
                                 Close
                             </a>
                         </div>

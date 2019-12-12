@@ -10,7 +10,6 @@ public class URL implements Serializable {
     @GeneratedValue
     private long id;
     private String urlGenerada;
-    @Column(unique = true)
     private String urlReferencia;
     private int cantAccesos;
     @ManyToOne(optional = false)

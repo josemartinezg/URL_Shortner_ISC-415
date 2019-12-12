@@ -1,6 +1,7 @@
 package services;
 
 import entidades.URL;
+import entidades.Usuario;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -39,6 +40,19 @@ public class URLService extends BaseService<URL>{
             return null;
         }
     }
+
+    public URL selectUrlByUrlReferenciaAndUsuario(String urlReferencia, Usuario usuario){
+        Query query = getEntityManager().createQuery("SELECT ur FROM URL ur WHERE ur.urlReferencia =:urlReferencia and ur.usuario =:usuario");
+        query.setParameter("urlReferencia", urlReferencia);
+        query.setParameter("usuario", usuario);
+
+        try{
+            return (URL) query.getSingleResult();
+        }catch(NoResultException e){
+            return null;
+        }
+    }
+
 
     public List<URL> selectUrlByUsername(String username){
         Query query = getEntityManager().createQuery("Select u from URL u where u.usuario.username =:username");
