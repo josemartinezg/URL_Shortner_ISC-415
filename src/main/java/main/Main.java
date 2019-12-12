@@ -63,6 +63,7 @@ public class Main {
             response.removeCookie("/", "apellido");
             response.removeCookie("/", "password");
             response.removeCookie("/", "isadmin");
+            response.removeCookie("/", "url_referencia");
             response.redirect("/home");
             return "";
         });
@@ -84,6 +85,14 @@ public class Main {
                 attributes.put("usuario", usuario);
             }else{
                 attributes.put("usuario", "");
+            }
+            String urlReferencia = request.cookie("url_referencia");
+            if(urlReferencia == null){
+                attributes.put("urlreferencia", "");
+            }else{
+                String urlGenerado = URLService.getInstance().selectUrlByUrlReferencia(urlReferencia).geturlGenerada();
+                attributes.put("urlreferencia", urlReferencia);
+                attributes.put("urlgenerado", urlGenerado);
             }
             attributes.put("articulos", usuarios);
             encriptingCookies(request, attributes);
@@ -154,40 +163,62 @@ public class Main {
 
             return "";
         });
-    Spark.post("/generarURL", (request, response) -> {
-        Encoder encoder = new Encoder();
-        String urlReferencia = request.queryParams("urlReferencia");
-        Usuario guess = UsuarioService.getInstance().find("guess");
-        URL url = new URL(urlReferencia);
-        String urlGenerada = encoder.encode(urlReferencia);
-        url.seturlGenerada(urlGenerada);
-        StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
-        textEncryptor.setPassword(encriptorKey);
-        Usuario usuario;
-        if(request.cookie("username") != null){
-            usuario = new Usuario(
-                    textEncryptor.decrypt(request.cookie("username")),
-                    textEncryptor.decrypt(request.cookie("nombre")),
-                    textEncryptor.decrypt(request.cookie("apellido")),
-                    textEncryptor.decrypt(request.cookie("password")),
-                    Boolean.parseBoolean(textEncryptor.decrypt(request.cookie("isadmin"))));
-           usuario.setMisURLs(new HashSet<URL>());
-            url.setUsuario(usuario);
-            usuario.getMisURLs().add(url);
-            response.redirect("/admin");
-        }else{
-            url.setUsuario(UsuarioService.getInstance().find("guess"));
-            guess.getMisURLs().add(url);
-            usuario = guess;
-            response.redirect("/homeLink");
-            //usuario.getMyAddresses().add(ipAddress);
-        }
-        /*Verificar mas tarde... Mientra tanto, él acorta.*/
-        URLService.getInstance().crear(url);
-        UsuarioService.getInstance().editar(usuario);
-        response.redirect("/home");
-        return "";
-    });
+
+        Spark.post("/generarURL", (request, response) -> {
+            Encoder encoder = new Encoder();
+            String urlReferencia = request.queryParams("urlReferencia");
+            Usuario guess = UsuarioService.getInstance().find("guess");
+            URL url = URLService.getInstance().selectUrlByUrlReferencia(urlReferencia);
+            Usuario usuarioCreador =  new Usuario();
+            if(url == null) {
+                url = new URL(urlReferencia);
+                String urlGenerada = encoder.encode(urlReferencia);
+                url.seturlGenerada(urlGenerada);
+            }else{
+                usuarioCreador = url.getUsuario();
+            }
+            StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
+            textEncryptor.setPassword(encriptorKey);
+            Usuario usuario;
+            if(request.cookie("username") != null){
+                usuario = new Usuario(
+                        textEncryptor.decrypt(request.cookie("username")),
+                        textEncryptor.decrypt(request.cookie("nombre")),
+                        textEncryptor.decrypt(request.cookie("apellido")),
+                        textEncryptor.decrypt(request.cookie("password")),
+                        Boolean.parseBoolean(textEncryptor.decrypt(request.cookie("isadmin"))));
+               usuario.setMisURLs(new HashSet<URL>());
+               url.setUsuario(usuario);
+               usuario.getMisURLs().add(url);
+            }else{
+                url.setUsuario(UsuarioService.getInstance().find("guess"));
+                guess.getMisURLs().add(url);
+                usuario = guess;
+                response.removeCookie("url_referencia");
+                response.cookie("/", "url_referencia", url.geturlReferencia(), 60, false);
+                //usuario.getMyAddresses().add(ipAddress);
+            }
+            /*Verificar mas tarde... Mientra tanto, él acorta.*/
+            System.out.println("Main 202: ");
+            System.out.println(usuarioCreador.getUsername());
+            if(usuarioCreador.getUsername() == null || !usuarioCreador.getUsername().equals(url.getUsuario().getUsername())){
+                URLService.getInstance().crear(url);
+            }
+            UsuarioService.getInstance().editar(usuario);
+            if(request.cookie("username") != null){
+                response.redirect("/admin");
+            }else{
+                response.redirect("/home");
+            }
+            return "";
+        });
+
+        Spark.get("homeWithoutURL", (request, response) -> {
+            response.removeCookie("/", "url_referencia");
+            response.redirect("/home");
+            return "";
+        });
+
     Spark.get("/admin", (request, response) ->{
         Map<String, Object> attributes = new HashMap<>();
 
@@ -225,13 +256,13 @@ public class Main {
         return new ModelAndView(attributes, "panelAdmin.ftl");
     }, freeMarkerEngine);
 
-        Spark.get("/homeLink", (request, response) ->{
-            Map<String, Object> attributes = new HashMap<>();
-            String username = request.session(true).attribute("usuario");
-            Usuario usuario = UsuarioService.getInstance().find(username);
-            attributes.put("usuario", usuario);
-            return new ModelAndView(attributes, "homeLink.ftl");
-        }, freeMarkerEngine);
+    Spark.get("/homeLink", (request, response) ->{
+        Map<String, Object> attributes = new HashMap<>();
+        String username = request.session(true).attribute("usuario");
+        Usuario usuario = UsuarioService.getInstance().find(username);
+        attributes.put("usuario", usuario);
+        return new ModelAndView(attributes, "homeLink.ftl");
+    }, freeMarkerEngine);
 
     Spark.get("/rd/:code", (request, response) ->{
        String urlGenerada = request.pathInfo();
