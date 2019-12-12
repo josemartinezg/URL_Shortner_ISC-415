@@ -43,14 +43,40 @@
                             <input name="urlReferencia" type="text" class="form-control form-control-lg" placeholder="Penco e' Link">
                         </div>
                         <div class="col-12 col-md-3">
-                            <button type="submit" class="btn btn-block btn-lg btn-primary" data-toggle="modal" data-target="#modalNuevoLink">Chin de Link</button>
+                            <button type="submit" class="btn btn-block btn-lg btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Chin de Link</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
+        <#if urlreferencia != "">
+            <!-- Modal -->
+            <div class="row">
+                <div class="col-md-7 mx-auto">
+                    <br/>
+                    <br/>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="text-black-50"><strong>URL resultado</strong></h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="text-black-50">${urlreferencia}</p>
+                            <p class="text-black-50">Our current domain + ${urlgenerado}</p>
+                        </div>
+                        <div class="card-footer">
+                            <a class="btn btn-danger text-white" href="/homeWithoutURL">
+                                Close
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </#if>
     </div>
 </header>
+
+
+
 
 <!-- Icons Grid -->
 <section class="features-icons bg-light text-center"> </section>
@@ -180,6 +206,8 @@
 <!-- Bootstrap core JavaScript -->
 <script src="../assets/vendor/jquery/jquery.min.js"></script>
 <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/home.js"></script>
+
 
 </body>
 

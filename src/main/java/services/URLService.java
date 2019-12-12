@@ -30,6 +30,16 @@ public class URLService extends BaseService<URL>{
         }
     }
 
+    public URL selectUrlByUrlReferencia(String urlReferencia){
+        Query query = getEntityManager().createQuery("SELECT ur FROM URL ur WHERE ur.urlReferencia =:urlReferencia");
+        query.setParameter("urlReferencia", urlReferencia);
+        try{
+            return (URL) query.getSingleResult();
+        }catch(NoResultException e){
+            return null;
+        }
+    }
+
     public List<URL> selectUrlByUsername(String username){
         Query query = getEntityManager().createQuery("Select u from URL u where u.usuario.username =:username");
         query.setParameter("username", username);
