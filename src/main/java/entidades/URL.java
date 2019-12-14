@@ -17,22 +17,25 @@ public class URL implements Serializable {
     @OneToMany(mappedBy = "urls", fetch = FetchType.EAGER)
     private Set<Acceso> misURLs;
 
-    public URL(){}
+    public URL(){
+        this.cantAccesos = 0;
+    }
     public URL(String urlReferencia){
         this.urlReferencia = urlReferencia;
+        this.cantAccesos = 0;
     }
-    public URL(String urlGenerada, String urlReferencia, int cantAccesos, Usuario usuario) {
+    public URL(String urlGenerada, String urlReferencia, Usuario usuario) {
         this.urlGenerada = urlGenerada;
         this.urlReferencia = urlReferencia;
-        this.cantAccesos = cantAccesos;
+        this.cantAccesos = 0;
         this.usuario = usuario;
     }
 
-    public URL(long id, String urlGenerada, String urlReferencia, int cantAccesos) {
+    public URL(long id, String urlGenerada, String urlReferencia) {
         this.id = id;
         this.urlGenerada = urlGenerada;
         this.urlReferencia = urlReferencia;
-        this.cantAccesos = cantAccesos;
+        this.cantAccesos = 0;
     }
     public long getId() {
         return id;
@@ -63,7 +66,7 @@ public class URL implements Serializable {
     }
 
     public void setcantAccesos(int cantAccesos) {
-        this.cantAccesos = cantAccesos;
+        this.cantAccesos += cantAccesos;
     }
 
     public Set<Acceso> getMisURLs() {

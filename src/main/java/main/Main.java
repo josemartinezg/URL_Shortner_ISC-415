@@ -245,7 +245,7 @@ public class Main {
                 true
         );
         attributes.put("usuario", usuario);
-        URL urlAux = new URL("\rd\bg", "https://www.amazon.com/", 1, adminUser);
+        URL urlAux = new URL("\rd\bg", "https://www.amazon.com/", adminUser);
         ArrayList<URL> urlArrayList = new ArrayList<URL>();
         urlArrayList.add(urlAux);
         if(usuario != null){
@@ -274,12 +274,24 @@ public class Main {
             String ipCliente = request.ip();
             String navegador = client.userAgent.family;
             String sistemaOperativo = client.os.family;
+            String deviceFamily = client.device.family;
             Date fechaHora = new Date(System.currentTimeMillis());
             System.out.println(sistemaOperativo);
+            System.out.println("Para la url " + urlGenerada + " hubo una visita desde un: " + deviceFamily);
+            //Creando registro de acceos.
             Acceso acceso = new Acceso(navegador, sistemaOperativo, ipCliente, fechaHora, url);
             AccesoService.getInstance().crear(acceso);
+            //Métodos para actualizar la cantidad de accesos de una URL en especifico.
+            long cantAccesos = AccesoService.getInstance().getCantAccesosByUrl(urlGenerada);
+            url.setcantAccesos((int)cantAccesos);
+            URLService.getInstance().editar(url);
             response.redirect(url.geturlReferencia());
         }else{
+            /*Contenido sugerido...*/
+            System.out.println("Going nowhere!");
+            Map<String, Object> attributes = new HashMap<>();
+            attributes.put("loggedUser", request.session().attribute("usuario"));
+//            return getPlantilla(configuration, attributes, "notFound.ftl");
             response.redirect("/");
         }
         return "";
