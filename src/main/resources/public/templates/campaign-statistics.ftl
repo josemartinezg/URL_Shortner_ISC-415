@@ -153,7 +153,7 @@
                             <i class="fas fa-chart-bar"></i>
                             Bar Chart Example</div>
                         <div class="card-body">
-                            <canvas id="myBarChart" width="100%" height="50"></canvas>
+                            <canvas id="myBarChartDays" width="100%" height="50"></canvas>
                         </div>
                         <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
                     </div>
@@ -240,6 +240,7 @@
 
 <!-- Demo scripts for this page-->
 <script src="../assets/js/demo/datatables-demo.js"></script>
+<#--TODO: Hacer la visualización dinámica de los rangos.-->
 <script>
     Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
     Chart.defaults.global.defaultFontColor = '#292b2c';
@@ -285,8 +286,8 @@
     var myLineChart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ["08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00","16:00", "17:00"
-                , "18:00", "19:00", "20:00", "21:00"],
+            labels: ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00","16:00", "17:00"
+                , "18:00", "19:00", "20:00", "21:00","22:00", "23:00"],
             datasets: [{
                 label: "Visitas por Hora",
                 lineTension: 0.3,
@@ -299,7 +300,9 @@
                 pointHoverBackgroundColor: "rgba(2,117,216,1)",
                 pointHitRadius: 50,
                 pointBorderWidth: 2,
-                data: [10000, 30162, 26263, 18394, 18287, 28682, 31274, 33259, 25849, 24159, 32651, 31984, 38451],
+                data: [${zero}, ${one}, ${two}, ${three}, ${four}, ${five}, ${six}, ${seven}, ${eight}, ${nine}, ${ten},
+                    ${eleven}, ${twelve}, ${thirteen}, ${fourteen}, ${fifteen}, ${sixteen}, ${seventeen}, ${eighteen},
+                    ${nineteen}, ${twenty}, ${twenty_one}, ${twenty_two}, ${twenty_three}],
             }],
         },
         options: {
@@ -318,7 +321,7 @@
                 yAxes: [{
                     ticks: {
                         min: 0,
-                        max: 40000,
+                        max: 15,
                         maxTicksLimit: 5
                     },
                     gridLines: {
@@ -332,6 +335,53 @@
         }
     });
 
+</script>
+<script>
+    Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#292b2c';
+
+    // Bar Chart Example
+    var ctx = document.getElementById("myBarChartDays");
+    var myLineChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+            datasets: [{
+                label: "Visitas",
+                backgroundColor: "rgba(2,117,216,1)",
+                borderColor: "rgba(2,117,216,1)",
+                data: [${mon}, ${tue}, ${wen}, ${thu}, ${fri}, ${sat}, ${sun}],
+            }],
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    time: {
+                        unit: 'day of week'
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                    ticks: {
+                        maxTicksLimit: 7
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        max: 15,
+                        maxTicksLimit: 5
+                    },
+                    gridLines: {
+                        display: true
+                    }
+                }],
+            },
+            legend: {
+                display: false
+            }
+        }
+    });
 </script>
 
 <!-- Demo scripts for this page-->
