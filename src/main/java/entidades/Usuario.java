@@ -12,7 +12,7 @@ public class Usuario implements Serializable{
     private String apellido;
     private String password;
     private boolean administrator;
-    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "usuario", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<URL> misURLs;
 //    @OneToMany(mappedBy = "usuario", fetch = FetchType.LAZY)
 //    private  Set<IpAddress> myAddresses;
