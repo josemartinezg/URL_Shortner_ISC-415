@@ -56,6 +56,7 @@
                                 <th>URL Original</th>
                                 <th>URL Acortada</th>
                                 <th>Username</th>
+                                <th>Fecha Creación</th>
                                 <th>Codigo QR</th>
                                 <th>Impacto</th>
                                 <th>Acciones</th>
@@ -66,6 +67,7 @@
                                     <td>URL Original</td>
                                     <td>URL Acortada</td>
                                     <td>Username</td>
+                                    <td>Fecha Creación</td>
                                     <td>Codigo QR</td>
                                     <td>Impacto</td>
                                     <td>Acciones</td>
@@ -78,6 +80,7 @@
                                             <td><a href="${link.urlGenerada}">${link.urlReferencia}</a></td>
                                             <td><a href="${link.urlGenerada}">${link.urlGenerada}</a></td>
                                             <td>${link.usuario.username}</td>
+                                            <td>${link.fechaCreacion}</td>
                                             <td ><a href="#modaVaina">Codigo QR</a></td>
                                             <td><a href="/campaignStatistics/${link.id}">
                                                     Reportes
