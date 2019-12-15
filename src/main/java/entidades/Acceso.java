@@ -17,11 +17,11 @@ public class Acceso implements Serializable {
     private long hour;
     @Column(nullable = true)
     private String day;
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.REMOVE)
     private URL urls;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private Set<Navegador> misNavegadores;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
     private Set<SistemaOperativo> misSOs;
 
     public Acceso(){}

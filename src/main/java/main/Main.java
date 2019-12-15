@@ -167,6 +167,13 @@ public class Main {
             return "";
         });
 
+        Spark.post("/eliminarURL/:id", (request, response) -> {
+            long id = Long.parseLong(request.params("id"));
+            URLService.getInstance().eliminar(id);
+            response.redirect("/admin");
+            return "";
+        });
+
         Spark.post("/generarURL", (request, response) -> {
             StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
             textEncryptor.setPassword(encriptorKey);
@@ -206,85 +213,89 @@ public class Main {
             return "";
         });
 
-    Spark.get("/admin", (request, response) ->{
-        Map<String, Object> attributes = new HashMap<>();
-        StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
-        textEncryptor.setPassword(encriptorKey);
-        Usuario usuario = null;
-        if(request.cookie("username") != null){
-            usuario = new Usuario(
-                    textEncryptor.decrypt(request.cookie("username")),
-                    textEncryptor.decrypt(request.cookie("nombre")),
-                    textEncryptor.decrypt(request.cookie("apellido")),
-                    textEncryptor.decrypt(request.cookie("password")),
-                    Boolean.parseBoolean(textEncryptor.decrypt(request.cookie("isadmin"))));
-            usuario.setMisURLs(new HashSet<URL>());
-            attributes.put("usuario", usuario);
-        }else{
-            attributes.put("usuario", "");
-        }
-        Usuario adminUser = new Usuario(
-                "admin",
-                "admin",
-                "admin",
-                "admin",
-                true
-        );
-        attributes.put("usuario", usuario);
-        URL urlAux = new URL("\rd\bg", "https://www.amazon.com/", adminUser);
-        ArrayList<URL> urlArrayList = new ArrayList<URL>();
-        urlArrayList.add(urlAux);
-        if(usuario != null){
-            attributes.put("links", URLService.getInstance().selectUrlByUsername(usuario.getUsername()));
-        }else{
-            attributes.put("links", new ArrayList<>());
-        }
-        return new ModelAndView(attributes, "panelAdmin.ftl");
-    }, freeMarkerEngine);
-
-    Spark.get("/homeLink", (request, response) ->{
-        Map<String, Object> attributes = new HashMap<>();
-        String username = request.session(true).attribute("usuario");
-        Usuario usuario = UsuarioService.getInstance().find(username);
-        attributes.put("usuario", usuario);
-        return new ModelAndView(attributes, "homeLink.ftl");
-    }, freeMarkerEngine);
-
-    Spark.get("/rd/:code", (request, response) ->{
-       String urlGenerada = request.pathInfo();
-        System.out.println(urlGenerada);
-        URL url = URLService.getInstance().selectUrlGenerada(urlGenerada);
-        if (url != null){
-            Parser parser = new Parser();
-            Client client = parser.parse(request.userAgent());
-            String ipCliente = request.ip();
-            String navegador = client.userAgent.family;
-            String sistemaOperativo = client.os.family;
-            String deviceFamily = client.device.family;
-            Date fechaHora = new Date(System.currentTimeMillis());
-            //Anadiendo fecha y hora a la entidad de acceso para facilitar control. Borrame.
-            long hour = LocalTime.now().getHour();
-            String dia = LocalDate.now().getDayOfWeek().toString();
-            System.out.println(sistemaOperativo);
-            System.out.println("Para la url " + urlGenerada + " hubo una visita desde un: " + deviceFamily);
-            //Creando registro de acceos.
-            Acceso acceso = new Acceso(navegador, sistemaOperativo, ipCliente, fechaHora, url, hour, dia);
-            AccesoService.getInstance().crear(acceso);
-            //Métodos para actualizar la cantidad de accesos de una URL en especifico.
-            long cantAccesos = AccesoService.getInstance().getCantAccesosByUrl(urlGenerada);
-            url.setcantAccesos((int)cantAccesos);
-            URLService.getInstance().editar(url);
-            response.redirect(url.geturlReferencia());
-        }else{
-            /*Contenido sugerido...*/
-            System.out.println("Going nowhere!");
+        Spark.get("/admin", (request, response) ->{
             Map<String, Object> attributes = new HashMap<>();
-            attributes.put("loggedUser", request.session().attribute("usuario"));
-//            return getPlantilla(configuration, attributes, "notFound.ftl");
-            response.redirect("/");
-        }
-        return "";
-    });
+            StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
+            textEncryptor.setPassword(encriptorKey);
+            Usuario usuario = null;
+            if(request.cookie("username") != null){
+                usuario = new Usuario(
+                        textEncryptor.decrypt(request.cookie("username")),
+                        textEncryptor.decrypt(request.cookie("nombre")),
+                        textEncryptor.decrypt(request.cookie("apellido")),
+                        textEncryptor.decrypt(request.cookie("password")),
+                        Boolean.parseBoolean(textEncryptor.decrypt(request.cookie("isadmin"))));
+                usuario.setMisURLs(new HashSet<URL>());
+                attributes.put("usuario", usuario);
+            }else{
+                attributes.put("usuario", "");
+            }
+            Usuario adminUser = new Usuario(
+                    "admin",
+                    "admin",
+                    "admin",
+                    "admin",
+                    true
+            );
+            attributes.put("usuario", usuario);
+            URL urlAux = new URL("\rd\bg", "https://www.amazon.com/", adminUser);
+            ArrayList<URL> urlArrayList = new ArrayList<URL>();
+            urlArrayList.add(urlAux);
+            if(usuario != null){
+                if(usuario.isAdministrator()){
+                    attributes.put("links", URLService.getInstance().findAll());
+                }else{
+                    attributes.put("links", URLService.getInstance().selectUrlByUsername(usuario.getUsername()));
+                }
+            }else{
+                attributes.put("links", new ArrayList<>());
+            }
+            return new ModelAndView(attributes, "panelAdmin.ftl");
+        }, freeMarkerEngine);
+
+        Spark.get("/homeLink", (request, response) ->{
+            Map<String, Object> attributes = new HashMap<>();
+            String username = request.session(true).attribute("usuario");
+            Usuario usuario = UsuarioService.getInstance().find(username);
+            attributes.put("usuario", usuario);
+            return new ModelAndView(attributes, "homeLink.ftl");
+        }, freeMarkerEngine);
+
+        Spark.get("/rd/:code", (request, response) ->{
+           String urlGenerada = request.pathInfo();
+            System.out.println(urlGenerada);
+            URL url = URLService.getInstance().selectUrlGenerada(urlGenerada);
+            if (url != null){
+                Parser parser = new Parser();
+                Client client = parser.parse(request.userAgent());
+                String ipCliente = request.ip();
+                String navegador = client.userAgent.family;
+                String sistemaOperativo = client.os.family;
+                String deviceFamily = client.device.family;
+                Date fechaHora = new Date(System.currentTimeMillis());
+                //Anadiendo fecha y hora a la entidad de acceso para facilitar control. Borrame.
+                long hour = LocalTime.now().getHour();
+                String dia = LocalDate.now().getDayOfWeek().toString();
+                System.out.println(sistemaOperativo);
+                System.out.println("Para la url " + urlGenerada + " hubo una visita desde un: " + deviceFamily);
+                //Creando registro de acceos.
+                Acceso acceso = new Acceso(navegador, sistemaOperativo, ipCliente, fechaHora, url, hour, dia);
+                AccesoService.getInstance().crear(acceso);
+                //Métodos para actualizar la cantidad de accesos de una URL en especifico.
+                long cantAccesos = AccesoService.getInstance().getCantAccesosByUrl(urlGenerada);
+                url.setcantAccesos((int)cantAccesos);
+                URLService.getInstance().editar(url);
+                response.redirect(url.geturlReferencia());
+            }else{
+                /*Contenido sugerido...*/
+                System.out.println("Going nowhere!");
+                Map<String, Object> attributes = new HashMap<>();
+                attributes.put("loggedUser", request.session().attribute("usuario"));
+    //            return getPlantilla(configuration, attributes, "notFound.ftl");
+                response.redirect("/");
+            }
+            return "";
+        });
         Spark.get("/generarReportes", (request, response) ->{
             Map<String, Object> attributes = new HashMap<>();
             String username = request.session(true).attribute("usuario");
