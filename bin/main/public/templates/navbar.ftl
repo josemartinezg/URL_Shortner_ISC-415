@@ -4,7 +4,7 @@
         <a class="navbar-brand" href="/"><img src="../assets/img/chinde-logo.gif" alt="animated"/></a>
         <#if usuario != "">
             <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <h4><strong>${usuario.username}</strong></h4>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
