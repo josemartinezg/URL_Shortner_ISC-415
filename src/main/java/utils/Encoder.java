@@ -21,7 +21,7 @@ public class Encoder {
 
     public String encode(String urlReferencia){
         System.out.println("URL Original: " + urlReferencia);
-        long urlCurrentIndex = URLService.getInstance().getSizeById();
+        long urlCurrentIndex = URLService.getInstance().getSizeById()+1;
         String currentIndexedUrl = "/chinde.link/" + Long.toString(urlCurrentIndex);
         if (urlToIndex.containsKey(urlReferencia)){
             System.out.println("/rd/"+base62Encode(urlToIndex.get(urlReferencia)));
