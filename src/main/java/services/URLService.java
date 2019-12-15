@@ -2,9 +2,12 @@ package services;
 
 import entidades.URL;
 import entidades.Usuario;
+import utils.Encoder;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
 
 public class URLService extends BaseService<URL>{
@@ -62,6 +65,22 @@ public class URLService extends BaseService<URL>{
         }catch(NoResultException e){
             return null;
         }
+    }
+
+    public void generarURL(String urlReferencia, Usuario usuario) {
+        URL url = URLService.getInstance().selectUrlByUrlReferenciaAndUsuario(urlReferencia, usuario);
+        if(url == null) {
+            url = new URL(urlReferencia);
+        }
+        Encoder encoder = new Encoder();
+        String urlGenerada = encoder.encode(urlReferencia);
+        url.seturlGenerada(urlGenerada);
+        url.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+        usuario.setMisURLs(new HashSet<URL>());
+        url.setUsuario(usuario);
+        usuario.getMisURLs().add(url);
+        URLService.getInstance().crear(url);
+        UsuarioService.getInstance().editar(usuario);
     }
 
 }

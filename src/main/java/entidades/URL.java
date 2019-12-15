@@ -1,6 +1,7 @@
 package entidades;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Set;
 import javax.persistence.*;
 import javax.persistence.criteria.Fetch;
@@ -11,10 +12,11 @@ public class URL implements Serializable {
     private long id;
     private String urlGenerada;
     private String urlReferencia;
+    private Timestamp fechaCreacion;
     private int cantAccesos;
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario usuario;
-    @OneToMany(mappedBy = "urls", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "urls", fetch = FetchType.LAZY)
     private Set<Acceso> misURLs;
 
     public URL(){
@@ -83,5 +85,13 @@ public class URL implements Serializable {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public Timestamp getFechaCreacion() {
+        return fechaCreacion;
+    }
+
+    public void setFechaCreacion(Timestamp fechaCreacion) {
+        this.fechaCreacion = fechaCreacion;
     }
 }
