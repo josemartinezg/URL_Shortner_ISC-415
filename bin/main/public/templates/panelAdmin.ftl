@@ -28,41 +28,7 @@
 
 <div id="wrapper">
 
-    <!-- Sidebar -->
-    <ul class="sidebar navbar-nav">
-        <li class="nav-item active">
-            <a class="nav-link" href="index.html">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Dashboard</span>
-            </a>
-        </li>
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-fw fa-folder"></i>
-                <span>Pages</span>
-            </a>
-            <div class="dropdown-menu" aria-labelledby="pagesDropdown">
-                <h6 class="dropdown-header">Login Screens:</h6>
-                <a class="dropdown-item" href="login.html">Login</a>
-                <a class="dropdown-item" href="register.html">Register</a>
-                <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
-                <div class="dropdown-divider"></div>
-                <h6 class="dropdown-header">Other Pages:</h6>
-                <a class="dropdown-item" href="404.html">404 Page</a>
-                <a class="dropdown-item" href="blank.html">Blank Page</a>
-            </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="charts.html">
-                <i class="fas fa-fw fa-chart-area"></i>
-                <span>Charts</span></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="tables.html">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Tables</span></a>
-        </li>
-    </ul>
+    <#include "admin-sidebar.ftl">
 
     <div id="content-wrapper">
 
@@ -92,15 +58,18 @@
                                 <th>Username</th>
                                 <th>Codigo QR</th>
                                 <th>Impacto</th>
+                                <th>Acciones</th>
                             </tr>
                             </thead>
                             <tfoot>
-                            <th>URL Original</th>
-                            <th>URL Acortada</th>
-                            <th>Username</th>
-                            <th>Codigo QR</th>
-                            <th>Impacto</th>
-                            </tr>
+                                <tr>
+                                    <td>URL Original</td>
+                                    <td>URL Acortada</td>
+                                    <td>Username</td>
+                                    <td>Codigo QR</td>
+                                    <td>Impacto</td>
+                                    <td>Acciones</td>
+                                </tr>
                             </tfoot>
                             <tbody>
                                 <#if links?size != 0>
@@ -110,22 +79,18 @@
                                             <td><a href="${link.urlGenerada}">${link.urlGenerada}</a></td>
                                             <td>${link.usuario.username}</td>
                                             <td ><a href="#modaVaina">Codigo QR</a></td>
-                                            <td><a href="/generarReportes">
+                                            <td><a href="/campaignStatistics/${link.id}">
                                                     Reportes
                                                 </a>
+                                            </td>
+                                            <td>
+                                                <span class="btn btn-danger" >
+                                                    <a class="text-white" href="/eliminarURL/${link.id}">Eliminar</a>
+                                                </span>
                                             </td>
                                         </tr>
                                     </#list>
                                 </#if>
-
-                            <#--                                                       <tr>
-                                                            <td>Donna Snider</td>
-                                                            <td>Customer Support</td>
-                                                            <td>New York</td>
-                                                            <td>27</td>
-                                                            <td>2011/01/25</td>
-                                                            <td>$112,000</td>
-                                                        </tr>-->
                             </tbody>
                         </table>
                     </div>

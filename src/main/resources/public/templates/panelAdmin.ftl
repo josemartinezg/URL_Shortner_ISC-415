@@ -58,15 +58,18 @@
                                 <th>Username</th>
                                 <th>Codigo QR</th>
                                 <th>Impacto</th>
+                                <th>Acciones</th>
                             </tr>
                             </thead>
                             <tfoot>
-                            <th>URL Original</th>
-                            <th>URL Acortada</th>
-                            <th>Username</th>
-                            <th>Codigo QR</th>
-                            <th>Impacto</th>
-                            </tr>
+                                <tr>
+                                    <td>URL Original</td>
+                                    <td>URL Acortada</td>
+                                    <td>Username</td>
+                                    <td>Codigo QR</td>
+                                    <td>Impacto</td>
+                                    <td>Acciones</td>
+                                </tr>
                             </tfoot>
                             <tbody>
                                 <#if links?size != 0>
@@ -80,18 +83,17 @@
                                                     Reportes
                                                 </a>
                                             </td>
+                                            <td class="text-center">
+                                                <span class="btn btn-danger" >
+                                                    <#-- TODO agregar modal antes de eliminar -->
+                                                    <form method="post" action="/eliminarURL/${link.id}">
+                                                        <button type="submit" class="btn btn-danger text-white">Eliminar</button>
+                                                    </form>
+                                                </span>
+                                            </td>
                                         </tr>
                                     </#list>
                                 </#if>
-
-                            <#--                                                       <tr>
-                                                            <td>Donna Snider</td>
-                                                            <td>Customer Support</td>
-                                                            <td>New York</td>
-                                                            <td>27</td>
-                                                            <td>2011/01/25</td>
-                                                            <td>$112,000</td>
-                                                        </tr>-->
                             </tbody>
                         </table>
                     </div>
