@@ -16,7 +16,7 @@ public class URL implements Serializable {
     private int cantAccesos;
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Usuario usuario;
-    @OneToMany(mappedBy = "urls", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "urls", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     private Set<Acceso> misURLs;
 
     public URL(){

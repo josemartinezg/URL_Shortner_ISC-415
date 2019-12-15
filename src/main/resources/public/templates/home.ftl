@@ -52,7 +52,7 @@
         <#if urlreferencia != "">
             <!-- Modal -->
             <div class="row">
-                <div class="col-md-7 mx-auto">
+                <div class="col-md-10 mx-auto">
                     <br/>
                     <br/>
                     <div class="card">
@@ -60,8 +60,9 @@
                             <h3 class="text-black-50"><strong>URL resultado</strong></h3>
                         </div>
                         <div class="card-body">
-                            <p class="text-black-50">${urlreferencia}</p>
-                            <p class="text-black-50">Our current domain + ${urlgenerado}</p>
+                            <p class="card-text text-black-50"><strong>Link de referencia   <a class="alert alert-primary" href="${urlreferencia}">${urlreferencia}</a></strong></p>
+                            <br/>
+                            <p class="card-text text-black-50"><strong>Link Generado   <a class="alert alert-primary" href="${urlgenerado}">${urlgenerado}</a></strong></p>
                         </div>
                         <div class="card-footer">
                             <a class="btn btn-danger btn-lg text-white" href="/homeWithoutURL">
