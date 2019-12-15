@@ -145,26 +145,36 @@
                 </div>
                 <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
             </div>
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-chart-bar"></i>
+                    Bar Chart Example</div>
+                <div class="card-body">
+                    <canvas id="myBarChartDays" width="100%" height="50"></canvas>
+                </div>
+                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            </div>
 
             <div class="row">
-                <div class="col-lg-8">
-                    <div class="card mb-3">
-                        <div class="card-header">
-                            <i class="fas fa-chart-bar"></i>
-                            Bar Chart Example</div>
-                        <div class="card-body">
-                            <canvas id="myBarChartDays" width="100%" height="50"></canvas>
-                        </div>
-                        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
+
+                <div class="col-lg-6">
                     <div class="card mb-3">
                         <div class="card-header">
                             <i class="fas fa-chart-pie"></i>
                             Pie Chart Example</div>
                         <div class="card-body">
                             <canvas id="myBrowserPieChart" width="100%" height="100"></canvas>
+                        </div>
+                        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <i class="fas fa-chart-pie"></i>
+                            Visitas por SO</div>
+                        <div class="card-body">
+                            <canvas id="myOsPiChart" width="100%" height="100"></canvas>
                         </div>
                         <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
                     </div>
@@ -267,10 +277,10 @@
     var myPieChart = new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: ["Windows", "MacOS", "Ubuntu"],
+            labels: ["Android", "iOS", "MacOS", "Linux", "Ubuntu", "Windows"],
             datasets: [{
-                data: [12.21, 15.58, 11.25],
-                backgroundColor: ['#007bff', '#dc3545', '#ffc107'],
+                data: [${and}, ${io}, ${mo}, ${li}, ${ub}, ${wi}],
+                backgroundColor: ['#dc3545','#007bff', '#98412E', '#94EC1B', '#FAF90F', '#F8A500'],
             }],
         },
     });

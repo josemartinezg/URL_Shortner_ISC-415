@@ -74,6 +74,16 @@ public class AccesoService extends BaseService<Acceso> {
         query.setParameter("day", day);
         return (long) query.getSingleResult();
     }
+    public long getCantAccesosOs(String so, long urlId){
+        Query query = getEntityManager()
+                .createQuery("Select count (acc.id) " +
+                        "from Acceso acc " +
+                        "where acc.urls.id=:urlId " +
+                        "and acc.sistemaOperativo=:so");
+        query.setParameter("urlId", urlId);
+        query.setParameter("so", so);
+        return (long) query.getSingleResult();
+    }
 
 
 }

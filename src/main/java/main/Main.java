@@ -323,6 +323,7 @@ public class Main {
             addingBrowserStats(attributes, urlId);
             addingDayStats(attributes, urlId);
             addingHourStats(attributes, urlId);
+            addingSoStats(attributes, urlId);
 //            if(usuario != null){
 //                attributes.put("links", UsuarioService.getInstance().find(usuario).
 //                        getMisURLs());
@@ -332,6 +333,23 @@ public class Main {
             return new ModelAndView(attributes, "campaign-statistics.ftl");
         }, freeMarkerEngine);
 
+    }
+
+    private static void addingSoStats(Map<String, Object> attributes, long urlId) {
+        AccesoService aS = AccesoService.getInstance();
+        long android = aS.getCantAccesosOs("Android", urlId);
+        long iOs = aS.getCantAccesosOs("iOS", urlId);
+        long macOs = aS.getCantAccesosOs("Mac OS", urlId);
+        long linux = aS.getCantAccesosOs("Linux", urlId);
+        long ubuntu = aS.getCantAccesosOs("Ubuntu", urlId);
+        long windows = aS.getCantAccesosOs("Windows", urlId);
+
+        attributes.put("and", android);
+        attributes.put("io", iOs);
+        attributes.put("mo", macOs);
+        attributes.put("li", linux);
+        attributes.put("ub", ubuntu);
+        attributes.put("wi", windows);
     }
 
     private static void addingHourStats(Map<String, Object> attributes, long urlId) {
