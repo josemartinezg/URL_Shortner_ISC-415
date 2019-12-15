@@ -124,9 +124,7 @@
     </ul>
 
     <div id="content-wrapper">
-
         <div class="container-fluid">
-
             <!-- Breadcrumbs-->
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
@@ -134,7 +132,8 @@
                 </li>
                 <li class="breadcrumb-item active">Charts</li>
             </ol>
-
+            <h2>Cantidad de Visitas</h2>
+            <h3>${url.cantAccesos}</h3>
             <!-- Area Chart Example-->
             <div class="card mb-3">
                 <div class="card-header">
@@ -156,7 +155,6 @@
             </div>
 
             <div class="row">
-
                 <div class="col-lg-6">
                     <div class="card mb-3">
                         <div class="card-header">
@@ -184,7 +182,47 @@
             <p class="small text-center text-muted my-5">
                 <em>More chart examples coming soon...</em>
             </p>
-
+            <!-- DataTables Example -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <i class="fas fa-table"></i>
+                    Mi Contenido</div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>IP del Visitante</th>
+                                <th>Navegador</th>
+                                <th>Sistema Operativo</th>
+                                <th>Fecha</th>
+                            </tr>
+                            </thead>
+                            <tfoot>
+                                <th>IP del Visitante</th>
+                                <th>Navegador</th>
+                                <th>Sistema Operativo</th>
+                                <th>Fecha</th>
+                            </tr>
+                            </tfoot>
+                            <tbody>
+                            <#if accesos?size != 0>
+                                <#list accesos as acceso>
+                                    <tr>
+<#--                                        <td>${acceso.urls.cantAccesos}</td>-->
+                                        <td>${acceso.ipCliente}</td>
+                                        <td>${acceso.navegador}</td>
+                                        <td>${acceso.sistemaOperativo}</td>
+                                        <td>${acceso.fechaHoraAcceso}</td>
+                                    </tr>
+                                </#list>
+                            </#if>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+            </div>
         </div>
         <!-- /.container-fluid -->
 
@@ -196,7 +234,6 @@
                 </div>
             </div>
         </footer>
-
     </div>
     <!-- /.content-wrapper -->
 
@@ -252,7 +289,8 @@
 <script src="../assets/js/demo/datatables-demo.js"></script>
 <#--TODO: Hacer la visualización dinámica de los rangos.-->
 <script>
-    Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,' +
+        '"Helvetica Neue",Arial,sans-serif';
     Chart.defaults.global.defaultFontColor = '#292b2c';
 
     // Pie Chart Example

@@ -305,7 +305,11 @@ public class Main {
             long urlId = Long.valueOf(request.params("idCampaign"));
             String username = request.session(true).attribute("usuario");
             Usuario usuario = UsuarioService.getInstance().find(username);
+            List<Acceso> auxAccessList = AccesoService.getInstance().getAccesosByUrl(urlId);
+            URL url = URLService.getInstance().find(urlId);
             attributes.put("usuario", usuario);
+            attributes.put("accesos", auxAccessList);
+            attributes.put("url", url);
             addingBrowserStats(attributes, urlId);
             addingDayStats(attributes, urlId);
             addingHourStats(attributes, urlId);

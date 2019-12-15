@@ -68,7 +68,7 @@ public class URL implements Serializable {
     }
 
     public void setcantAccesos(int cantAccesos) {
-        this.cantAccesos += cantAccesos;
+        this.cantAccesos = cantAccesos;
     }
 
     public Set<Acceso> getMisURLs() {

@@ -4,7 +4,12 @@ import entidades.Acceso;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
+import java.util.List;
+import java.util.Set;
 
 public class AccesoService extends BaseService<Acceso> {
     private static AccesoService accesoServiceInstance;
@@ -20,6 +25,13 @@ public class AccesoService extends BaseService<Acceso> {
         return accesoServiceInstance;
     }
 
+    public List<Acceso> getAccesosByUrl(long urlConsulta){
+        EntityManager entityManager = getEntityManager();
+        Query query = entityManager.createQuery("from Acceso where urls.id=:urlConsulta");
+        query.setParameter("urlConsulta", urlConsulta);
+        List<Acceso> listaAccesos = query.getResultList();
+        return listaAccesos;
+    }
     public long getCantAccesosByUrl(String urlConsulta){
         Query query = getEntityManager().createQuery("Select count(acc.id) from Acceso acc " +
                 "where acc.urls.urlGenerada=:urlConsulta");
