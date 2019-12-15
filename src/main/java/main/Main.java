@@ -92,12 +92,14 @@ public class Main {
         Spark.get("/login", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Log In");
+            response.removeCookie("/", "url_referencia");
             return new ModelAndView(attributes, "login.ftl");
         }, freeMarkerEngine);
 
         Spark.get("/register", (request, response) -> {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Register");
+            response.removeCookie("/", "url_referencia");
             return new ModelAndView(attributes, "register.ftl");
         }, freeMarkerEngine);
 
