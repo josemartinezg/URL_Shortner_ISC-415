@@ -18,6 +18,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
@@ -85,13 +86,14 @@ public class Main {
                         Boolean.parseBoolean(textEncryptor.decrypt(request.cookie("isadmin"))));
                 attributes.put("usuario", usuario);
             }else{
+                usuario = UsuarioService.getInstance().find("guess");
                 attributes.put("usuario", "");
             }
             String urlReferencia = request.cookie("url_referencia");
             if(urlReferencia == null){
                 attributes.put("urlreferencia", "");
             }else{
-                String urlGenerado = URLService.getInstance().selectUrlByUrlReferencia(urlReferencia).geturlGenerada();
+                String urlGenerado = URLService.getInstance().selectUrlByUrlReferenciaAndUsuario(urlReferencia, usuario).geturlGenerada();
                 attributes.put("urlreferencia", urlReferencia);
                 attributes.put("urlgenerado", urlGenerado);
             }
@@ -136,7 +138,6 @@ public class Main {
                     response.cookie("/", "apellido", encriptedLastName, recordar, false);
                     response.cookie("/", "isadmin", encriptedIsAdmin, recordar, false);
                     response.redirect("/home");
-
                 }
             }
             session.attribute("usuario", usuario);
@@ -160,52 +161,37 @@ public class Main {
             UsuarioService.getInstance().crear(usuario);
 
             //redireccionado a la otra URL.
+            response.removeCookie("url_referencia");
             response.redirect("/login");
 
             return "";
         });
 
         Spark.post("/generarURL", (request, response) -> {
-            Encoder encoder = new Encoder();
-            String urlReferencia = request.queryParams("urlReferencia");
-            Usuario guess = UsuarioService.getInstance().find("guess");
-            URL url = URLService.getInstance().selectUrlByUrlReferencia(urlReferencia);
-            Usuario usuarioCreador =  new Usuario();
-            if(url == null) {
-                url = new URL(urlReferencia);
-                String urlGenerada = encoder.encode(urlReferencia);
-                url.seturlGenerada(urlGenerada);
-            }else{
-                usuarioCreador = url.getUsuario();
-            }
             StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
             textEncryptor.setPassword(encriptorKey);
+            String urlReferencia = request.queryParams("urlReferencia");
+            Usuario guess = UsuarioService.getInstance().find("guess");
+            String currentUserUsername;
+            if(request.cookie("username") != null){
+                currentUserUsername = textEncryptor.decrypt(request.cookie("username"));
+            } else{
+                currentUserUsername = guess.getUsername();
+            }
             Usuario usuario;
             if(request.cookie("username") != null){
                 usuario = new Usuario(
-                        textEncryptor.decrypt(request.cookie("username")),
+                        currentUserUsername,
                         textEncryptor.decrypt(request.cookie("nombre")),
                         textEncryptor.decrypt(request.cookie("apellido")),
                         textEncryptor.decrypt(request.cookie("password")),
                         Boolean.parseBoolean(textEncryptor.decrypt(request.cookie("isadmin"))));
-               usuario.setMisURLs(new HashSet<URL>());
-               url.setUsuario(usuario);
-               usuario.getMisURLs().add(url);
             }else{
-                url.setUsuario(UsuarioService.getInstance().find("guess"));
-                guess.getMisURLs().add(url);
                 usuario = guess;
                 response.removeCookie("url_referencia");
-                response.cookie("/", "url_referencia", url.geturlReferencia(), 60, false);
-                //usuario.getMyAddresses().add(ipAddress);
+                response.cookie("/", "url_referencia", urlReferencia, 60, false);
             }
-            /*Verificar mas tarde... Mientra tanto, él acorta.*/
-            System.out.println("Main 202: ");
-            System.out.println(usuarioCreador.getUsername());
-            if(usuarioCreador.getUsername() == null || !usuarioCreador.getUsername().equals(url.getUsuario().getUsername())){
-                URLService.getInstance().crear(url);
-            }
-            UsuarioService.getInstance().editar(usuario);
+            URLService.getInstance().generarURL(urlReferencia, usuario);
             if(request.cookie("username") != null){
                 response.redirect("/admin");
             }else{
@@ -509,7 +495,6 @@ public class Main {
         }
     }
     static int getHerokuAssignedPort() { ProcessBuilder processBuilder = new ProcessBuilder(); if (processBuilder.environment().get("PORT") != null) { return Integer.parseInt(processBuilder.environment().get("PORT")); } return 4567; }
-
 }
 
 
