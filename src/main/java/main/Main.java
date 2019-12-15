@@ -74,26 +74,13 @@ public class Main {
             Map<String, Object> attributes = new HashMap<>();
             attributes.put("titulo", "Home");
             List<Usuario> usuarios = UsuarioService.getInstance().findAll();
-            StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
-            textEncryptor.setPassword(encriptorKey);
-            Usuario usuario;
-            if(request.cookie("username") != null){
-                usuario = new Usuario(
-                        textEncryptor.decrypt(request.cookie("username")),
-                        textEncryptor.decrypt(request.cookie("nombre")),
-                        textEncryptor.decrypt(request.cookie("apellido")),
-                        textEncryptor.decrypt(request.cookie("password")),
-                        Boolean.parseBoolean(textEncryptor.decrypt(request.cookie("isadmin"))));
-                attributes.put("usuario", usuario);
-            }else{
-                usuario = UsuarioService.getInstance().find("guess");
-                attributes.put("usuario", "");
-            }
+            Usuario usuario = getCookieUser(attributes, request);
             String urlReferencia = request.cookie("url_referencia");
             if(urlReferencia == null){
                 attributes.put("urlreferencia", "");
             }else{
-                String urlGenerado = URLService.getInstance().selectUrlByUrlReferenciaAndUsuario(urlReferencia, usuario).geturlGenerada();
+                String urlGenerado = URLService.getInstance().selectUrlByUrlReferenciaAndUsuario(urlReferencia, usuario)
+                        .geturlGenerada();
                 attributes.put("urlreferencia", urlReferencia);
                 attributes.put("urlgenerado", urlGenerado);
             }
@@ -215,21 +202,7 @@ public class Main {
 
         Spark.get("/admin", (request, response) ->{
             Map<String, Object> attributes = new HashMap<>();
-            StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
-            textEncryptor.setPassword(encriptorKey);
-            Usuario usuario = null;
-            if(request.cookie("username") != null){
-                usuario = new Usuario(
-                        textEncryptor.decrypt(request.cookie("username")),
-                        textEncryptor.decrypt(request.cookie("nombre")),
-                        textEncryptor.decrypt(request.cookie("apellido")),
-                        textEncryptor.decrypt(request.cookie("password")),
-                        Boolean.parseBoolean(textEncryptor.decrypt(request.cookie("isadmin"))));
-                usuario.setMisURLs(new HashSet<URL>());
-                attributes.put("usuario", usuario);
-            }else{
-                attributes.put("usuario", "");
-            }
+            Usuario usuario = getCookieUser(attributes, request);
             Usuario adminUser = new Usuario(
                     "admin",
                     "admin",
@@ -314,8 +287,7 @@ public class Main {
             /*Todo: Haz que esta sección de Análisis individual funcione.*/
             Map<String, Object> attributes = new HashMap<>();
             long urlId = Long.valueOf(request.params("idCampaign"));
-            String username = request.session(true).attribute("usuario");
-            Usuario usuario = UsuarioService.getInstance().find(username);
+            Usuario usuario = getCookieUser(attributes, request);
             List<Acceso> auxAccessList = AccesoService.getInstance().getAccesosByUrl(urlId);
             URL url = URLService.getInstance().find(urlId);
             attributes.put("usuario", usuario);
@@ -509,6 +481,26 @@ public class Main {
             }
         }
     }
+    /*TODO: Verificar si conviene más, por rendimiento, sacar esta función hacia un servicio.   */
+    private static Usuario getCookieUser(Map<String, Object> attributes, Request request) {
+        StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
+        textEncryptor.setPassword(encriptorKey);
+        Usuario usuario = null;
+        if(request.cookie("username") != null){
+            usuario = new Usuario(
+                    textEncryptor.decrypt(request.cookie("username")),
+                    textEncryptor.decrypt(request.cookie("nombre")),
+                    textEncryptor.decrypt(request.cookie("apellido")),
+                    textEncryptor.decrypt(request.cookie("password")),
+                    Boolean.parseBoolean(textEncryptor.decrypt(request.cookie("isadmin"))));
+            usuario.setMisURLs(new HashSet<URL>());
+            attributes.put("usuario", usuario);
+        }else{
+            attributes.put("usuario", "");
+        }
+        return usuario;
+    }
+
     static int getHerokuAssignedPort() { ProcessBuilder processBuilder = new ProcessBuilder(); if (processBuilder.environment().get("PORT") != null) { return Integer.parseInt(processBuilder.environment().get("PORT")); } return 4567; }
 }
 

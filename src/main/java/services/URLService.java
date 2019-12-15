@@ -6,6 +6,7 @@ import utils.Encoder;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
@@ -83,4 +84,12 @@ public class URLService extends BaseService<URL>{
         UsuarioService.getInstance().editar(usuario);
     }
 
+    public long getSizeById() {
+        Query query = getEntityManager()
+                .createNativeQuery("SELECT ID FROM URL \n" +
+                        "ORDER BY ID \n" +
+                        "DESC \n" +
+                        "LIMIT 1");
+        return ((BigInteger) query.getSingleResult()).longValue();
+    }
 }
