@@ -433,8 +433,16 @@ public class Main {
                 "guess",
                 false
         );
+        URL urlInit = new URL(
+                "/rd/prueba",
+                "https://www.google.com.do/",
+                new Timestamp(System.currentTimeMillis()),
+                0,
+                adminUser
+        );
         UsuarioService.getInstance().crear(adminUser);
         UsuarioService.getInstance().crear(guessUser);
+        URLService.getInstance().crear(urlInit);
     }
 
 

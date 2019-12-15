@@ -1,5 +1,7 @@
 package entidades;
 
+import javafx.util.converter.TimeStringConverter;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Set;
@@ -28,13 +30,22 @@ public class URL implements Serializable {
         this.urlReferencia = urlReferencia;
         this.cantAccesos = 0;
     }
+
+    public URL(String urlGenerada, String urlReferencia, Timestamp fechaCreacion, int cantAccesos, Usuario usuario) {
+        this.urlGenerada = urlGenerada;
+        this.urlReferencia = urlReferencia;
+        this.fechaCreacion = fechaCreacion;
+        this.cantAccesos = cantAccesos;
+        this.usuario = usuario;
+    }
+
     public URL(String urlGenerada, String urlReferencia, Usuario usuario) {
+        this.id = id;
         this.urlGenerada = urlGenerada;
         this.urlReferencia = urlReferencia;
         this.cantAccesos = 0;
         this.usuario = usuario;
     }
-
     public URL(long id, String urlGenerada, String urlReferencia) {
         this.id = id;
         this.urlGenerada = urlGenerada;
