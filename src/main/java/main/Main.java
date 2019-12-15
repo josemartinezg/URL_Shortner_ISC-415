@@ -242,7 +242,11 @@ public class Main {
             ArrayList<URL> urlArrayList = new ArrayList<URL>();
             urlArrayList.add(urlAux);
             if(usuario != null){
-                attributes.put("links", URLService.getInstance().selectUrlByUsername(usuario.getUsername()));
+                if(usuario.isAdministrator()){
+                    attributes.put("links", URLService.getInstance().findAll());
+                }else{
+                    attributes.put("links", URLService.getInstance().selectUrlByUsername(usuario.getUsername()));
+                }
             }else{
                 attributes.put("links", new ArrayList<>());
             }
