@@ -24,7 +24,7 @@
 <#--    </li>-->
     <li class="nav-item">
         <a class="nav-link" href="/admin">
-            <i class=l"fas fa-fw fa-chart-area"></i>
+            <i class="fas fa-fw fa-chart-area"></i>
             <span>Charts</span></a>
     </li>
     <li class="nav-item">

@@ -76,7 +76,7 @@
                                             <td><a href="${link.urlGenerada}">${link.urlGenerada}</a></td>
                                             <td>${link.usuario.username}</td>
                                             <td ><a href="#modaVaina">Codigo QR</a></td>
-                                            <td><a href="/generarReportes">
+                                            <td><a href="/campaignStatistics/${link.id}">
                                                     Reportes
                                                 </a>
                                             </td>

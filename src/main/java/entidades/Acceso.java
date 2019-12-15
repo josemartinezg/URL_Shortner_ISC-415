@@ -14,6 +14,9 @@ public class Acceso implements Serializable {
     private String sistemaOperativo;
     private String ipCliente;
     private Date fechaHoraAcceso;
+    private long hour;
+    @Column(nullable = true)
+    private String day;
     @ManyToOne(optional = false)
     private URL urls;
     @OneToMany
@@ -29,6 +32,17 @@ public class Acceso implements Serializable {
         this.ipCliente = ipCliente;
         this.fechaHoraAcceso = fechaHoraAcceso;
         this.urls = urls;
+    }
+    /*Todo: Constructor preferido.*/
+    public Acceso(String navegador, String sistemaOperativo, String ipCliente,
+                  Date fechaHoraAcceso, URL urls, long hour, String day) {
+        this.navegador = navegador;
+        this.sistemaOperativo = sistemaOperativo;
+        this.ipCliente = ipCliente;
+        this.fechaHoraAcceso = fechaHoraAcceso;
+        this.urls = urls;
+        this.hour = hour;
+        this.day = day;
     }
 
     public Acceso(int id, String navegador, String sistemaOperativo, String ipCliente, Date fechaHoraAcceso) {
@@ -101,5 +115,21 @@ public class Acceso implements Serializable {
 
     public void setUrls(URL urls) {
         this.urls = urls;
+    }
+
+    public long getHour() {
+        return hour;
+    }
+
+    public void setHour(long hour) {
+        this.hour = hour;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
     }
 }

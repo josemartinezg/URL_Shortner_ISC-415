@@ -42,4 +42,38 @@ public class AccesoService extends BaseService<Acceso> {
 //        System.out.println(result);
     }
 
+    public long getCantAccesosByBrowser(String browser, long urlId){
+        Query query = getEntityManager()
+                .createQuery("Select count (acc.id) " +
+                        "from Acceso acc " +
+                        "where acc.urls.id=:urlId " +
+                        "and acc.navegador=:browser");
+        query.setParameter("urlId", urlId);
+        query.setParameter("browser", browser);
+        return (long) query.getSingleResult();
+    }
+
+    public long getCantAccesosByHour(long hour, long urlId){
+        Query query = getEntityManager()
+                .createQuery("Select count (acc.id) " +
+                        "from Acceso acc " +
+                        "where acc.urls.id=:urlId " +
+                        "and acc.hour=:hour");
+        query.setParameter("urlId", urlId);
+        query.setParameter("hour", hour);
+        return (long) query.getSingleResult();
+    }
+
+    public long getCantAccesosByDayOfWeek(String day, long urlId){
+        Query query = getEntityManager()
+                .createQuery("Select count (acc.id) " +
+                        "from Acceso acc " +
+                        "where acc.urls.id=:urlId " +
+                        "and acc.day=:day");
+        query.setParameter("urlId", urlId);
+        query.setParameter("day", day);
+        return (long) query.getSingleResult();
+    }
+
+
 }

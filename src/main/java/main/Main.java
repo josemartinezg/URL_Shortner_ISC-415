@@ -19,6 +19,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 import static spark.Spark.*;
@@ -221,7 +222,6 @@ public class Main {
 
     Spark.get("/admin", (request, response) ->{
         Map<String, Object> attributes = new HashMap<>();
-
         StrongTextEncryptor textEncryptor = new StrongTextEncryptor();
         textEncryptor.setPassword(encriptorKey);
         Usuario usuario = null;
@@ -276,10 +276,13 @@ public class Main {
             String sistemaOperativo = client.os.family;
             String deviceFamily = client.device.family;
             Date fechaHora = new Date(System.currentTimeMillis());
+            //Anadiendo fecha y hora a la entidad de acceso para facilitar control. Borrame.
+            long hour = LocalTime.now().getHour();
+            String dia = LocalDate.now().getDayOfWeek().toString();
             System.out.println(sistemaOperativo);
             System.out.println("Para la url " + urlGenerada + " hubo una visita desde un: " + deviceFamily);
             //Creando registro de acceos.
-            Acceso acceso = new Acceso(navegador, sistemaOperativo, ipCliente, fechaHora, url);
+            Acceso acceso = new Acceso(navegador, sistemaOperativo, ipCliente, fechaHora, url, hour, dia);
             AccesoService.getInstance().crear(acceso);
             //Métodos para actualizar la cantidad de accesos de una URL en especifico.
             long cantAccesos = AccesoService.getInstance().getCantAccesosByUrl(urlGenerada);
@@ -310,7 +313,116 @@ public class Main {
             return new ModelAndView(attributes, "panelAdmin.ftl");
         }, freeMarkerEngine);
 
+        Spark.get("/campaignStatistics/:idCampaign", (request, response) ->{
+            /*Todo: Haz que esta sección de Análisis individual funcione.*/
+            Map<String, Object> attributes = new HashMap<>();
+            long urlId = Long.valueOf(request.params("idCampaign"));
+            String username = request.session(true).attribute("usuario");
+            Usuario usuario = UsuarioService.getInstance().find(username);
+            attributes.put("usuario", usuario);
+            addingBrowserStats(attributes, urlId);
+            addingDayStats(attributes, urlId);
+            addingHourStats(attributes, urlId);
+//            if(usuario != null){
+//                attributes.put("links", UsuarioService.getInstance().find(usuario).
+//                        getMisURLs());
+//            }else{
+//                attributes.put("links", new ArrayList<>());
+//            }
+            return new ModelAndView(attributes, "campaign-statistics.ftl");
+        }, freeMarkerEngine);
+
     }
+
+    private static void addingHourStats(Map<String, Object> attributes, long urlId) {
+        AccesoService aS = AccesoService.getInstance();
+        long zero = aS.getCantAccesosByHour( 0, urlId);
+        long one = aS.getCantAccesosByHour( 1, urlId);
+        long two = aS.getCantAccesosByHour( 2, urlId);
+        long three = aS.getCantAccesosByHour( 3, urlId);
+        long four = aS.getCantAccesosByHour( 4, urlId);
+        long five = aS.getCantAccesosByHour( 5, urlId);
+        long six = aS.getCantAccesosByHour( 6, urlId);
+        long seven = aS.getCantAccesosByHour( 7, urlId);
+        long eight = aS.getCantAccesosByHour( 8, urlId);
+        long nine = aS.getCantAccesosByHour( 9, urlId);
+        long ten = aS.getCantAccesosByHour( 10, urlId);
+        long eleven = aS.getCantAccesosByHour( 11, urlId);
+        long twelve = aS.getCantAccesosByHour( 12, urlId);
+        long thirteen = aS.getCantAccesosByHour( 13, urlId);
+        long fourteen = aS.getCantAccesosByHour( 14, urlId);
+        long fifteen = aS.getCantAccesosByHour( 15, urlId);
+        long sixteen = aS.getCantAccesosByHour( 16, urlId);
+        long seventeen = aS.getCantAccesosByHour( 17, urlId);
+        long eightteen = aS.getCantAccesosByHour( 18, urlId);
+        long nineteen = aS.getCantAccesosByHour( 19, urlId);
+        long twenty = aS.getCantAccesosByHour( 20, urlId);
+        long twenty_one = aS.getCantAccesosByHour( 21, urlId);
+        long twenty_two = aS.getCantAccesosByHour( 22, urlId);
+        long twenty_three = aS.getCantAccesosByHour( 23, urlId);
+
+        attributes.put("zero", zero);
+        attributes.put("one", one);
+        attributes.put("two", two);
+        attributes.put("three", three);
+        attributes.put("four", four);
+        attributes.put("five", five);
+        attributes.put("six", six);
+        attributes.put("seven", seven);
+        attributes.put("eight", eight);
+        attributes.put("nine", nine);
+        attributes.put("ten", ten);
+        attributes.put("eleven", eleven);
+        attributes.put("twelve", twelve);
+        attributes.put("thirteen", thirteen);
+        attributes.put("fourteen", fourteen);
+        attributes.put("fifteen", fifteen);
+        attributes.put("sixteen", sixteen);
+        attributes.put("seventeen", seventeen);
+        attributes.put("eighteen", eightteen);
+        attributes.put("nineteen", nineteen);
+        attributes.put("twenty", twenty);
+        attributes.put("twenty_one", twenty_one);
+        attributes.put("twenty_two", twenty_two);
+        attributes.put("twenty_three", twenty_three);
+    }
+
+    private static void addingDayStats(Map<String, Object> attributes, long urlId) {
+        AccesoService aS = AccesoService.getInstance();
+        long cantMo = aS.getCantAccesosByDayOfWeek("MONDAY", urlId);
+        long cantTue = aS.getCantAccesosByDayOfWeek("TUESDAY", urlId);
+        long cantWen = aS.getCantAccesosByDayOfWeek("WEDNESDAY", urlId);
+        long cantThu = aS.getCantAccesosByDayOfWeek("THURSDAY", urlId);
+        long cantFri = aS.getCantAccesosByDayOfWeek("FRIDAY", urlId);
+        long cantSat = aS.getCantAccesosByDayOfWeek("SATURDAY", urlId);
+        long cantSun = aS.getCantAccesosByDayOfWeek("SUNDAY", urlId);
+
+        attributes.put("mon", cantMo);
+        attributes.put("tue", cantTue);
+        attributes.put("wen", cantWen);
+        attributes.put("thu", cantThu);
+        attributes.put("fri", cantFri);
+        attributes.put("sat", cantSat);
+        attributes.put("sun", cantSun);
+    }
+
+
+    private static void addingBrowserStats(Map<String, Object> attributes, long urlId) {
+        AccesoService aS = AccesoService.getInstance();
+        long cantChrome = aS.getCantAccesosByBrowser("Chrome", urlId);
+        long cantSafari = aS.getCantAccesosByBrowser("Safari", urlId);
+        long cantOpera = aS.getCantAccesosByBrowser("Opera", urlId);
+        long cantEdge = aS.getCantAccesosByBrowser("Edge", urlId);
+        long cantFirefox = aS.getCantAccesosByBrowser("Firefox", urlId);
+        long cantBrave = aS.getCantAccesosByBrowser("Brave", urlId);
+        attributes.put("cc", cantChrome);
+        attributes.put("cs", cantSafari);
+        attributes.put("co", cantOpera);
+        attributes.put("ce", cantEdge);
+        attributes.put("cf", cantFirefox);
+        attributes.put("cb", cantBrave);
+    }
+
     private static void createEntities(){
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("MiUnidadPersistencia");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
