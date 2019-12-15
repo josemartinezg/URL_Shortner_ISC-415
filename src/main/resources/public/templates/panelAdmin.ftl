@@ -61,12 +61,13 @@
                             </tr>
                             </thead>
                             <tfoot>
-                            <th>URL Original</th>
-                            <th>URL Acortada</th>
-                            <th>Username</th>
-                            <th>Codigo QR</th>
-                            <th>Impacto</th>
-                            </tr>
+                                <tr>
+                                    <td>URL Original</td>
+                                    <td>URL Acortada</td>
+                                    <td>Username</td>
+                                    <td>Codigo QR</td>
+                                    <td>Impacto</td>
+                                </tr>
                             </tfoot>
                             <tbody>
                                 <#if links?size != 0>
