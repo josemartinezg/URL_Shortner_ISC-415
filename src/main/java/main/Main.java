@@ -496,6 +496,7 @@ public class Main {
             usuario.setMisURLs(new HashSet<URL>());
             attributes.put("usuario", usuario);
         }else{
+            usuario = UsuarioService.getInstance().find("guess");
             attributes.put("usuario", "");
         }
         return usuario;
