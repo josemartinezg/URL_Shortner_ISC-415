@@ -10,7 +10,9 @@ public class URL implements Serializable {
     @Id
     @GeneratedValue
     private long id;
+    @Column(length = 1024)
     private String urlGenerada;
+    @Column(length = 1024)
     private String urlReferencia;
     private Timestamp fechaCreacion;
     private int cantAccesos;
