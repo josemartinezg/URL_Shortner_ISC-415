@@ -97,5 +97,81 @@ public class AccesoService extends BaseService<Acceso> {
         return (long) query.getSingleResult();
     }
 
+    public long getBrowserVisits(String browser, String username){
+        Query query = getEntityManager()
+                .createQuery("Select count (acc.id) " +
+                        "from Acceso acc " +
+                        "where acc.urls.usuario.username=:username " +
+                        "and acc.navegador=:browser");
+        query.setParameter("username", username);
+        query.setParameter("browser", browser);
+        return (long) query.getSingleResult();
+    }
+
+    public long getHourlyVisits(long hour, String username){
+        Query query = getEntityManager()
+                .createQuery("Select count (acc.id) " +
+                        "from Acceso acc " +
+                        "where acc.urls.usuario.username=:username " +
+                        "and acc.hour=:hour");
+        query.setParameter("username", username);
+        query.setParameter("hour", hour);
+        return (long) query.getSingleResult();
+    }
+
+    public long getWeeklyVisits(String day, String username){
+        Query query = getEntityManager()
+                .createQuery("Select count (acc.id) " +
+                        "from Acceso acc " +
+                        "where acc.urls.usuario.username=:username " +
+                        "and acc.day=:day");
+        query.setParameter("username", username);
+        query.setParameter("day", day);
+        return (long) query.getSingleResult();
+    }
+    public long getOsVisits(String so, String username){
+        Query query = getEntityManager()
+                .createQuery("Select count (acc.id) " +
+                        "from Acceso acc " +
+                        "where acc.urls.usuario.username=:username " +
+                        "and acc.sistemaOperativo=:so");
+        query.setParameter("username", username);
+        query.setParameter("so", so);
+        return (long) query.getSingleResult();
+    }
+    public long getGeneralBrowserVisits(String browser){
+        Query query = getEntityManager()
+                .createQuery("Select count (acc.id) " +
+                        "from Acceso acc " +
+                        "where acc.navegador=:browser");
+        query.setParameter("browser", browser);
+        return (long) query.getSingleResult();
+    }
+
+    public long getGeneralHourlyVisits(long hour){
+        Query query = getEntityManager()
+                .createQuery("Select count (acc.id) " +
+                        "from Acceso acc " +
+                        "where acc.hour=:hour");
+        query.setParameter("hour", hour);
+        return (long) query.getSingleResult();
+    }
+
+    public long getGeneralWeeklyVisits(String day){
+        Query query = getEntityManager()
+                .createQuery("Select count (acc.id) " +
+                        "from Acceso acc " +
+                        "where acc.day=:day");
+        query.setParameter("day", day);
+        return (long) query.getSingleResult();
+    }
+    public long getGeneralOsVisits(String so){
+        Query query = getEntityManager()
+                .createQuery("Select count (acc.id) " +
+                        "from Acceso acc " +
+                        "where acc.sistemaOperativo=:so");
+        query.setParameter("so", so);
+        return (long) query.getSingleResult();
+    }
 
 }

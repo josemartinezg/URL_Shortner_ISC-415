@@ -203,6 +203,9 @@ public class Main {
         Spark.get("/admin", (request, response) ->{
             Map<String, Object> attributes = new HashMap<>();
             Usuario usuario = getCookieUser(attributes, request);
+            if (usuario.getUsername().equalsIgnoreCase("admin")){
+                response.redirect("/adminStatistics");
+            }
             Usuario adminUser = new Usuario(
                     "admin",
                     "admin",
@@ -214,6 +217,10 @@ public class Main {
             URL urlAux = new URL("\rd\bg", "https://www.amazon.com/", adminUser);
             ArrayList<URL> urlArrayList = new ArrayList<URL>();
             urlArrayList.add(urlAux);
+            addingSoStatsUser(attributes, usuario.getUsername());
+            addingHourStatsUser(attributes, usuario.getUsername());
+            addingDayStatsUser(attributes, usuario.getUsername());
+            addingBrowserStatsUser(attributes, usuario.getUsername());
             if(usuario != null){
                 if(usuario.isAdministrator()){
                     attributes.put("links", URLService.getInstance().findAll());
@@ -232,6 +239,26 @@ public class Main {
             Usuario usuario = UsuarioService.getInstance().find(username);
             attributes.put("usuario", usuario);
             return new ModelAndView(attributes, "homeLink.ftl");
+        }, freeMarkerEngine);
+
+        Spark.get("/adminStatistics", (request, response) ->{
+            Map<String, Object> attributes = new HashMap<>();
+            Usuario usuario = getCookieUser(attributes, request);
+            attributes.put("usuario", usuario);
+            addingGeneralHourStats(attributes);
+            addingGeneralSoStats(attributes);
+            addingGeneralDayStats(attributes);
+            addingGeneralBrowserStats(attributes);
+            return new ModelAndView(attributes, "adminStats.ftl");
+        }, freeMarkerEngine);
+
+        Spark.get("/adminUserControl", (request, response) ->{
+            Map<String, Object> attributes = new HashMap<>();
+            Usuario usuario = getCookieUser(attributes, request);
+            List<Usuario> listaUsuarios = UsuarioService.getInstance().findAll();
+            attributes.put("usuario", usuario);
+            attributes.put("usuarios", listaUsuarios);
+            return new ModelAndView(attributes, "adminUserControl.ftl");
         }, freeMarkerEngine);
 
         Spark.get("/rd/:code", (request, response) ->{
@@ -286,7 +313,9 @@ public class Main {
         Spark.get("/campaignStatistics/:idCampaign", (request, response) ->{
             /*Todo: Haz que esta sección de Análisis individual funcione.*/
             Map<String, Object> attributes = new HashMap<>();
-            long urlId = Long.valueOf(request.params("idCampaign"));
+            String num = request.params("idCampaign");
+            String idUrl = num.replaceAll(",", "");
+            long urlId = Long.parseLong(idUrl);
             Usuario usuario = getCookieUser(attributes, request);
             List<Acceso> auxAccessList = AccesoService.getInstance().getAccesosByUrl(urlId);
             URL url = URLService.getInstance().find(urlId);
@@ -406,6 +435,217 @@ public class Main {
         long cantEdge = aS.getCantAccesosByBrowser("Edge", urlId);
         long cantFirefox = aS.getCantAccesosByBrowser("Firefox", urlId);
         long cantBrave = aS.getCantAccesosByBrowser("Brave", urlId);
+        attributes.put("cc", cantChrome);
+        attributes.put("cs", cantSafari);
+        attributes.put("co", cantOpera);
+        attributes.put("ce", cantEdge);
+        attributes.put("cf", cantFirefox);
+        attributes.put("cb", cantBrave);
+    }
+    private static void addingSoStatsUser(Map<String, Object> attributes, String username) {
+        AccesoService aS = AccesoService.getInstance();
+        long android = aS.getOsVisits("Android", username);
+        long iOs = aS.getOsVisits("iOS", username);
+        long macOs = aS.getOsVisits("Mac OS", username);
+        long linux = aS.getOsVisits("Linux", username);
+        long ubuntu = aS.getOsVisits("Ubuntu", username);
+        long windows = aS.getOsVisits("Windows", username);
+
+        attributes.put("and", android);
+        attributes.put("io", iOs);
+        attributes.put("mo", macOs);
+        attributes.put("li", linux);
+        attributes.put("ub", ubuntu);
+        attributes.put("wi", windows);
+    }
+
+    private static void addingHourStatsUser(Map<String, Object> attributes, String username) {
+        AccesoService aS = AccesoService.getInstance();
+        long zero = aS.getHourlyVisits( 0, username);
+        long one = aS.getHourlyVisits( 1, username);
+        long two = aS.getHourlyVisits( 2, username);
+        long three = aS.getHourlyVisits( 3, username);
+        long four = aS.getHourlyVisits( 4, username);
+        long five = aS.getHourlyVisits( 5, username);
+        long six = aS.getHourlyVisits( 6, username);
+        long seven = aS.getHourlyVisits( 7, username);
+        long eight = aS.getHourlyVisits( 8, username);
+        long nine = aS.getHourlyVisits( 9, username);
+        long ten = aS.getHourlyVisits( 10, username);
+        long eleven = aS.getHourlyVisits( 11, username);
+        long twelve = aS.getHourlyVisits( 12, username);
+        long thirteen = aS.getHourlyVisits( 13, username);
+        long fourteen = aS.getHourlyVisits( 14, username);
+        long fifteen = aS.getHourlyVisits( 15, username);
+        long sixteen = aS.getHourlyVisits( 16, username);
+        long seventeen = aS.getHourlyVisits( 17, username);
+        long eightteen = aS.getHourlyVisits( 18, username);
+        long nineteen = aS.getHourlyVisits( 19, username);
+        long twenty = aS.getHourlyVisits( 20, username);
+        long twenty_one = aS.getHourlyVisits( 21, username);
+        long twenty_two = aS.getHourlyVisits( 22, username);
+        long twenty_three = aS.getHourlyVisits( 23, username);
+
+        attributes.put("zero", zero);
+        attributes.put("one", one);
+        attributes.put("two", two);
+        attributes.put("three", three);
+        attributes.put("four", four);
+        attributes.put("five", five);
+        attributes.put("six", six);
+        attributes.put("seven", seven);
+        attributes.put("eight", eight);
+        attributes.put("nine", nine);
+        attributes.put("ten", ten);
+        attributes.put("eleven", eleven);
+        attributes.put("twelve", twelve);
+        attributes.put("thirteen", thirteen);
+        attributes.put("fourteen", fourteen);
+        attributes.put("fifteen", fifteen);
+        attributes.put("sixteen", sixteen);
+        attributes.put("seventeen", seventeen);
+        attributes.put("eighteen", eightteen);
+        attributes.put("nineteen", nineteen);
+        attributes.put("twenty", twenty);
+        attributes.put("twenty_one", twenty_one);
+        attributes.put("twenty_two", twenty_two);
+        attributes.put("twenty_three", twenty_three);
+    }
+
+    private static void addingDayStatsUser(Map<String, Object> attributes, String username) {
+        AccesoService aS = AccesoService.getInstance();
+        long cantMo = aS.getWeeklyVisits("MONDAY", username);
+        long cantTue = aS.getWeeklyVisits("TUESDAY", username);
+        long cantWen = aS.getWeeklyVisits("WEDNESDAY", username);
+        long cantThu = aS.getWeeklyVisits("THURSDAY", username);
+        long cantFri = aS.getWeeklyVisits("FRIDAY", username);
+        long cantSat = aS.getWeeklyVisits("SATURDAY", username);
+        long cantSun = aS.getWeeklyVisits("SUNDAY", username);
+
+        attributes.put("mon", cantMo);
+        attributes.put("tue", cantTue);
+        attributes.put("wen", cantWen);
+        attributes.put("thu", cantThu);
+        attributes.put("fri", cantFri);
+        attributes.put("sat", cantSat);
+        attributes.put("sun", cantSun);
+    }
+
+
+    private static void addingBrowserStatsUser(Map<String, Object> attributes, String username) {
+        AccesoService aS = AccesoService.getInstance();
+        long cantChrome = aS.getBrowserVisits("Chrome", username);
+        long cantSafari = aS.getBrowserVisits("Safari", username);
+        long cantOpera = aS.getBrowserVisits("Opera", username);
+        long cantEdge = aS.getBrowserVisits("Edge", username);
+        long cantFirefox = aS.getBrowserVisits("Firefox", username);
+        long cantBrave = aS.getBrowserVisits("Brave", username);
+        attributes.put("cc", cantChrome);
+        attributes.put("cs", cantSafari);
+        attributes.put("co", cantOpera);
+        attributes.put("ce", cantEdge);
+        attributes.put("cf", cantFirefox);
+        attributes.put("cb", cantBrave);
+    }
+
+    private static void addingGeneralSoStats(Map<String, Object> attributes) {
+        AccesoService aS = AccesoService.getInstance();
+        long android = aS.getGeneralOsVisits("Android");
+        long iOs = aS.getGeneralOsVisits("iOS");
+        long macOs = aS.getGeneralOsVisits("Mac OS");
+        long linux = aS.getGeneralOsVisits("Linux");
+        long ubuntu = aS.getGeneralOsVisits("Ubuntu");
+        long windows = aS.getGeneralOsVisits("Windows");
+
+        attributes.put("and", android);
+        attributes.put("io", iOs);
+        attributes.put("mo", macOs);
+        attributes.put("li", linux);
+        attributes.put("ub", ubuntu);
+        attributes.put("wi", windows);
+    }
+
+    private static void addingGeneralHourStats(Map<String, Object> attributes) {
+        AccesoService aS = AccesoService.getInstance();
+        long zero = aS.getGeneralHourlyVisits(0);
+        long one = aS.getGeneralHourlyVisits( 1);
+        long two = aS.getGeneralHourlyVisits( 2);
+        long three = aS.getGeneralHourlyVisits( 3);
+        long four = aS.getGeneralHourlyVisits( 4);
+        long five = aS.getGeneralHourlyVisits( 5);
+        long six = aS.getGeneralHourlyVisits( 6);
+        long seven = aS.getGeneralHourlyVisits( 7);
+        long eight = aS.getGeneralHourlyVisits( 8);
+        long nine = aS.getGeneralHourlyVisits( 9);
+        long ten = aS.getGeneralHourlyVisits( 10);
+        long eleven = aS.getGeneralHourlyVisits( 11);
+        long twelve = aS.getGeneralHourlyVisits( 12);
+        long thirteen = aS.getGeneralHourlyVisits( 13);
+        long fourteen = aS.getGeneralHourlyVisits( 14);
+        long fifteen = aS.getGeneralHourlyVisits( 15);
+        long sixteen = aS.getGeneralHourlyVisits( 16);
+        long seventeen = aS.getGeneralHourlyVisits( 17);
+        long eightteen = aS.getGeneralHourlyVisits( 18);
+        long nineteen = aS.getGeneralHourlyVisits( 19);
+        long twenty = aS.getGeneralHourlyVisits( 20);
+        long twenty_one = aS.getGeneralHourlyVisits( 21);
+        long twenty_two = aS.getGeneralHourlyVisits( 22);
+        long twenty_three = aS.getGeneralHourlyVisits( 23);
+
+        attributes.put("zero", zero);
+        attributes.put("one", one);
+        attributes.put("two", two);
+        attributes.put("three", three);
+        attributes.put("four", four);
+        attributes.put("five", five);
+        attributes.put("six", six);
+        attributes.put("seven", seven);
+        attributes.put("eight", eight);
+        attributes.put("nine", nine);
+        attributes.put("ten", ten);
+        attributes.put("eleven", eleven);
+        attributes.put("twelve", twelve);
+        attributes.put("thirteen", thirteen);
+        attributes.put("fourteen", fourteen);
+        attributes.put("fifteen", fifteen);
+        attributes.put("sixteen", sixteen);
+        attributes.put("seventeen", seventeen);
+        attributes.put("eighteen", eightteen);
+        attributes.put("nineteen", nineteen);
+        attributes.put("twenty", twenty);
+        attributes.put("twenty_one", twenty_one);
+        attributes.put("twenty_two", twenty_two);
+        attributes.put("twenty_three", twenty_three);
+    }
+
+    private static void addingGeneralDayStats(Map<String, Object> attributes) {
+        AccesoService aS = AccesoService.getInstance();
+        long cantMo = aS.getGeneralWeeklyVisits("MONDAY");
+        long cantTue = aS.getGeneralWeeklyVisits("TUESDAY");
+        long cantWen = aS.getGeneralWeeklyVisits("WEDNESDAY");
+        long cantThu = aS.getGeneralWeeklyVisits("THURSDAY");
+        long cantFri = aS.getGeneralWeeklyVisits("FRIDAY");
+        long cantSat = aS.getGeneralWeeklyVisits("SATURDAY");
+        long cantSun = aS.getGeneralWeeklyVisits("SUNDAY");
+
+        attributes.put("mon", cantMo);
+        attributes.put("tue", cantTue);
+        attributes.put("wen", cantWen);
+        attributes.put("thu", cantThu);
+        attributes.put("fri", cantFri);
+        attributes.put("sat", cantSat);
+        attributes.put("sun", cantSun);
+    }
+
+
+    private static void addingGeneralBrowserStats(Map<String, Object> attributes) {
+        AccesoService aS = AccesoService.getInstance();
+        long cantChrome = aS.getGeneralBrowserVisits("Chrome");
+        long cantSafari = aS.getGeneralBrowserVisits("Safari");
+        long cantOpera = aS.getGeneralBrowserVisits("Opera");
+        long cantEdge = aS.getGeneralBrowserVisits("Edge");
+        long cantFirefox = aS.getGeneralBrowserVisits("Firefox");
+        long cantBrave = aS.getGeneralBrowserVisits("Brave");
         attributes.put("cc", cantChrome);
         attributes.put("cs", cantSafari);
         attributes.put("co", cantOpera);
