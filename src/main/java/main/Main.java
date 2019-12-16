@@ -282,6 +282,38 @@ public class Main {
             return "";
         });
 
+        Spark.get("/editarUsuario/:username", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            Usuario usuario = getCookieUser(attributes, request);
+            attributes.put("usuario", usuario);
+            String username = request.params("username");
+            Usuario usuarioEditar = UsuarioService.getInstance().find(username);
+            attributes.put("usuarioEditar", usuarioEditar);
+            return new ModelAndView(attributes, "admin-editar-usuario.ftl");
+        }, freeMarkerEngine);
+
+        Spark.post("/hacerEditUsuario/", (request, response) -> {
+            String nombre = request.queryParams("nombre");
+            String apellido = request.queryParams("apellido");
+            String username = request.queryParams("username");
+            String password = request.queryParams("password");
+            boolean isadmin = false;
+            String auxIsAdmin = request.queryParams("isadmin");
+            if(auxIsAdmin != null && auxIsAdmin.equals("on")){
+                isadmin = true;
+            }
+            Usuario usuario = new Usuario(username, nombre, apellido, password, isadmin);
+            usuario.setUsername(username);
+            System.out.println("=== 308 Main Usuario: ");
+            System.out.println(usuario.toString());
+            UsuarioService.getInstance().editar(usuario);
+
+            //redireccionado a la otra URL.
+            response.removeCookie("url_referencia");
+            response.redirect("/usuarios");
+            return "";
+        });
+
         Spark.get("/homeLink", (request, response) ->{
             Map<String, Object> attributes = new HashMap<>();
             String username = request.session(true).attribute("usuario");

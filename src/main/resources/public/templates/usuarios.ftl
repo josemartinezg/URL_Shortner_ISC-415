@@ -98,6 +98,9 @@
                                             </#if>
                                         </td>
                                         <td class="text-center">
+                                            <span class="btn btn-info">
+                                                <a class="text-white" href="/editarUsuario/${usuario.username}">Editar</a>
+                                            </span>
                                             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#eliminarUsuarioModal${usuario.username}">
                                                 Eliminar
                                             </button>

@@ -42,64 +42,88 @@
 
             <!-- Icon Cards-->
             <!-- DataTables Example -->
-            <div class="card mb-3">
-                <div class="card-header">
-                    <i class="fas fa-table"></i>
-                    Agregar usuario
-                </div>
-                <div class="card-body">
-                    <form action="/hacerRegisterAdmin/" method="post"  enctype="application/x-www-form-urlencoded">
-                        <div class="form-group">
-                            <div class="form-row">
-                                <div class="col-md-6">
-                                    <div class="form-label-group">
-                                        <input name="nombre" class="form-control" placeholder="Nombre" type="text"
-                                               id="nombre" required="required" autofocus="autofocus">
-                                        <label for="nombre">Nombre</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-label-group">
-                                        <input name="apellido" class="form-control" placeholder="Apellido" type="text"
-                                               id="apellido" required="required" autofocus="autofocus">
-                                        <label for="apellido">Apellido</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="form-label-group">
-                                <input name="username" class="form-control" placeholder="username" type="text"
-                                       id="username" required="required" autofocus="autofocus">
-                                <label for="username">Username</label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="form-row">
-                                <div class="col-md-6">
-                                    <div class="form-label-group">
-                                        <input name="password" class="form-control" placeholder="******" type="password"
-                                               id="password" required="required">
-                                        <label for="password">Password</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-label-group">
-                                        <input name="repassword" class="form-control" placeholder="******" type="password"
-                                               id="repassword" required="required">
-                                        <label for="repassword">Re-Type Password</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary btn-block" type="submit">Register</button>
-                    </form>
-                    <div class="text-center">
-                        <a class="d-block small mt-3">Login Page</a>
-                        <a class="d-block small" href="forgot-password.html">Forgot Password?</a>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-table"></i>
+                        Agregar usuario
                     </div>
+                    <div class="card-body">
+<#--                        TODO: Terminar hacer Edit -->
+                        <form action="/hacerEditUsuario/" method="post"  enctype="application/x-www-form-urlencoded">
+                            <input class="form-control" id="username" name="username" type="hidden" value="${usuarioEditar.username}">
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-label-group">
+                                            <input name="nombre" class="form-control" placeholder="Nombre" type="text"
+                                                   id="nombre" required="required" autofocus="autofocus" value="${usuarioEditar.nombre}">
+                                            <label for="nombre">Nombre</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-label-group">
+                                            <input name="apellido" class="form-control" placeholder="Apellido" type="text"
+                                                   id="apellido" required="required" autofocus="autofocus" value="${usuarioEditar.apellido}">
+                                            <label for="apellido">Apellido</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-label-group">
+                                    <input name="username" class="form-control" placeholder="username" type="text"
+                                           id="username" required="required" autofocus="autofocus" value="${usuarioEditar.username}" disabled>
+                                    <label for="username">Username</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-label-group">
+                                            <input value="${usuarioEditar.password}" name="password" class="form-control" placeholder="******" type="password"
+                                                   id="password" required="required">
+                                            <label for="password">Password</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-label-group">
+                                            <input value="${usuarioEditar.password}" name="repassword" class="form-control" placeholder="******" type="password"
+                                                   id="repassword" required="required">
+                                            <label for="repassword">Re-Type Password</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-row text-center">
+                                    <div class="col">
+                                        <div class="custom-control custom-checkbox">
+                                            <#if usuarioEditar.administrator>
+                                                <input name="isadmin" type="checkbox" class="custom-control-input" id="customControlInline" checked>
+                                            </#if>
+                                            <#if !usuarioEditar.administrator>
+                                                <input name="isadmin" type="checkbox" class="custom-control-input" id="customControlInline">
+                                            </#if>
+                                            <label class="custom-control-label" for="customControlInline">Is the user Admin?</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-8">
+                                    <button class="btn btn-primary btn-block" type="submit">Edit User</button>
+                                </div>
+                                <div class="col-4">
+                                    <span class="btn btn-danger btn-block">
+                                        <a class="text-white" href="/usuarios">Cancel</a>
+                                    </span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
                 </div>
-                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
             </div>
         </div>
         <!-- Sticky Footer -->

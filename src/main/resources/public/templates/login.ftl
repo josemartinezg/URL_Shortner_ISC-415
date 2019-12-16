@@ -45,7 +45,7 @@
                     <div class="checkbox">
                         <label>
                             <input name="recordar" id="recordar" value="remember-me" type="checkbox" >
-                            Remember Password
+                            Remember Me
                         </label>
                     </div>
                 </div>
