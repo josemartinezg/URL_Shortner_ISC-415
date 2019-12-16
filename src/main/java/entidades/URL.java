@@ -1,7 +1,5 @@
 package entidades;
 
-import javafx.util.converter.TimeStringConverter;
-
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Set;
