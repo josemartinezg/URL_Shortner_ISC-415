@@ -277,7 +277,20 @@ public class Main {
 
         Spark.post("/eliminarUsuario/:username", (request, response) -> {
             String username = request.params("username");
+            Map<String, Object> attributes = new HashMap<>();
+            Usuario usuario = getCookieUser(attributes, request);
             UsuarioService.getInstance().eliminar(username);
+            if(usuario.getUsername().equals(username)){
+                Session session = request.session();
+                session.invalidate();
+                response.removeCookie("/", "username");
+                response.removeCookie("/", "nombre");
+                response.removeCookie("/", "apellido");
+                response.removeCookie("/", "password");
+                response.removeCookie("/", "isadmin");
+                response.removeCookie("/", "url_referencia");
+                response.redirect("/home");
+            }
             response.redirect("/usuarios");
             return "";
         });
