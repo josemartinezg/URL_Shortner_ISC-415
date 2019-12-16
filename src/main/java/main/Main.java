@@ -290,6 +290,14 @@ public class Main {
             return new ModelAndView(attributes, "homeLink.ftl");
         }, freeMarkerEngine);
 
+        before("/adminStatistics", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            Usuario usuario = getCookieUser(attributes, request);
+            if(!usuario.isAdministrator()){
+                response.redirect("/admin");
+            }
+        });
+
         Spark.get("/adminStatistics", (request, response) ->{
             Map<String, Object> attributes = new HashMap<>();
             Usuario usuario = getCookieUser(attributes, request);
