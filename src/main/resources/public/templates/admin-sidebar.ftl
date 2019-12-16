@@ -1,11 +1,13 @@
 <!-- Sidebar -->
 <ul class="sidebar navbar-nav">
-    <li class="nav-item">
-        <a class="nav-link" href="/admin">
-            <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Dashboard</span>
-        </a>
-    </li>
+    <#if !usuario.administrator>
+        <li class="nav-item active">
+            <a class="nav-link" href="/admin">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+    </#if>
 <#--    <li class="nav-item dropdown">-->
 <#--        <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
 <#--            <i class="fas fa-fw fa-folder"></i>-->
@@ -24,19 +26,15 @@
 <#--    </li>-->
     <#if usuario.administrator>
         <li class="nav-item">
-            <a class="nav-link" href="/usuarios">
-                <i class="fas fa-fw fa-user"></i>
-                <span>Users</span></a>
+            <a class="nav-link" href="/adminStatistics">
+                <i class="fas fa-fw fa-chart-area"></i>
+                <span>Charts</span></a>
         </li>
-    </#if>
+
     <li class="nav-item">
-        <a class="nav-link" href="/admin">
-            <i class="fas fa-fw fa-chart-area"></i>
-            <span>Charts</span></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="/admin">
+        <a class="nav-link" href="/adminUserControl">
             <i class="fas fa-fw fa-table"></i>
-            <span>Tables</span></a>
+            <span>Usuarios</span></a>
     </li>
+    </#if>
 </ul>
