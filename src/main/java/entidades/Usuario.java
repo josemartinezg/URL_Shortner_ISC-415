@@ -84,12 +84,14 @@ public class Usuario implements Serializable{
         this.misURLs = misURLs;
     }
 
-//    public Set<IpAddress> getMyAddresses() {
-//        return myAddresses;
-//    }
-//
-//    public void setMyAddresses(Set<IpAddress> myAddresses) {
-//        this.myAddresses = myAddresses;
-//    }
-
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "username='" + username + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", password='" + password + '\'' +
+                ", administrator=" + administrator +
+                '}';
+    }
 }
