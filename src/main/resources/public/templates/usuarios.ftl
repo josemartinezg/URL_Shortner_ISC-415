@@ -45,8 +45,15 @@
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-table"></i>
-                    Usuarios</div>
+                    Usuarios
+                </div>
                 <div class="card-body">
+                    <div class="row">
+                        <div class="col-9">
+                            <span class="btn btn-primary"><a class="text-white" href="/agregarUsuario">Agregar Usuario</a></span>
+                        </div>
+                    </div>
+                    <br/>
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                             <thead>

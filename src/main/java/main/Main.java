@@ -152,7 +152,26 @@ public class Main {
             //redireccionado a la otra URL.
             response.removeCookie("url_referencia");
             response.redirect("/login");
+            return "";
+        });
 
+        Spark.post("/hacerRegisterAdmin/", (request, response) -> {
+            String nombre = request.queryParams("nombre");
+            String apellido = request.queryParams("apellido");
+            String username = request.queryParams("username");
+            String password = request.queryParams("password");
+            boolean isadmin = false;
+            String auxIsAdmin = request.queryParams("isadmin");
+            if(auxIsAdmin != null && auxIsAdmin.equals("on")){
+                isadmin = true;
+            }
+            System.out.println(request.queryParams("isauthor"));
+            Usuario usuario = new Usuario(username, nombre, apellido, password, isadmin);
+            UsuarioService.getInstance().crear(usuario);
+
+            //redireccionado a la otra URL.
+            response.removeCookie("url_referencia");
+            response.redirect("/usuarios");
             return "";
         });
 
@@ -205,9 +224,6 @@ public class Main {
         Spark.get("/admin", (request, response) ->{
             Map<String, Object> attributes = new HashMap<>();
             Usuario usuario = getCookieUser(attributes, request);
-            if (usuario.getUsername().equalsIgnoreCase("admin")){
-                response.redirect("/adminStatistics");
-            }
             Usuario adminUser = new Usuario(
                     "admin",
                     "admin",
@@ -251,6 +267,20 @@ public class Main {
             attributes.put("usuarios", usuarios);
             return new ModelAndView(attributes, "usuarios.ftl");
         }, freeMarkerEngine);
+
+        Spark.get("/agregarUsuario", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            Usuario usuario = getCookieUser(attributes, request);
+            attributes.put("usuario", usuario);
+            return new ModelAndView(attributes, "admin-agregar-usuario.ftl");
+        }, freeMarkerEngine);
+
+        Spark.post("/eliminarUsuario/:username", (request, response) -> {
+            String username = request.params("username");
+            UsuarioService.getInstance().eliminar(username);
+            response.redirect("/usuarios");
+            return "";
+        });
 
         Spark.get("/homeLink", (request, response) ->{
             Map<String, Object> attributes = new HashMap<>();
@@ -701,7 +731,9 @@ public class Main {
         );
         UsuarioService.getInstance().crear(adminUser);
         UsuarioService.getInstance().crear(guessUser);
-        URLService.getInstance().crear(urlInit);
+        if(URLService.getInstance().selectUrlByUrlReferenciaAndUsuario(urlInit.geturlReferencia(), adminUser) == null){
+            URLService.getInstance().crear(urlInit);
+        }
     }
 
 
