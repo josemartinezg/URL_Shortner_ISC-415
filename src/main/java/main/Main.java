@@ -228,6 +228,23 @@ public class Main {
             return new ModelAndView(attributes, "panelAdmin.ftl");
         }, freeMarkerEngine);
 
+        before("/usuarios", (request, response) -> {
+            Map<String, Object> attributes = new HashMap<>();
+            Usuario usuario = getCookieUser(attributes, request);
+            if(!usuario.isAdministrator()){
+                response.redirect("/admin");
+            }
+        });
+
+        Spark.get("/usuarios", (request, response) ->{
+            Map<String, Object> attributes = new HashMap<>();
+            Usuario usuario = getCookieUser(attributes, request);
+            attributes.put("usuario", usuario);
+            List<Usuario> usuarios = UsuarioService.getInstance().selectAllWithoutAdminGuess();
+            attributes.put("usuarios", usuarios);
+            return new ModelAndView(attributes, "usuarios.ftl");
+        }, freeMarkerEngine);
+
         Spark.get("/homeLink", (request, response) ->{
             Map<String, Object> attributes = new HashMap<>();
             String username = request.session(true).attribute("usuario");
