@@ -1,4 +1,5 @@
 package main;
+import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import entidades.Acceso;
 import entidades.ErrorResponse;
@@ -85,7 +86,19 @@ public class WebServices {
                 }
                 return arrayListAccesos;
             }, JsonUtils.json());
-            Spark.post("/generarUrl", ACCEPT_TYPE_JSON,);
+            Spark.post("/generarURL/:usuario", ACCEPT_TYPE_JSON, (request, response) -> {
+                Usuario usuario = UsuarioService.getInstance().find(request.params("usuario"));
+                URL url = new Gson().fromJson(request.body(), URL.class);
+                url.setUsuario(usuario);
+                String enc = new Encoder().encode(url.geturlReferencia());
+                url.seturlGenerada(enc);
+                System.out.println(enc);
+                URLService.getInstance().generarURL(url.geturlReferencia(), url.getUsuario());
+                URLService.getInstance().crear(url);
+                url.setMisURLs(null);
+                url.setUsuario(null);
+                return url;
+            }, JsonUtils.json());
         });
     }
 
