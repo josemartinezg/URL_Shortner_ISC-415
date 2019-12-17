@@ -43,7 +43,7 @@ def post_estudiante(username):
     try:
         r = requests.post('http://localhost:4567/api/generarURL/' + username,
                       json=url.__dict__)
-        print(r.text)
+        jprint(r.json())
         print("Se ha creado exitosamente. ")
         print()
     except:

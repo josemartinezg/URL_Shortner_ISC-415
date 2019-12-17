@@ -27,7 +27,6 @@ public class SoapBuilder {
         Endpoint endpoint = Endpoint.create(ws);
         endpoint.publish(context);
         // Para acceder al wsdl en http://localhost:7777/ws/AcademicoWebService?wsdl
-
     }
 
     private static HttpContext build(Server server, String contextString) throws Exception {
