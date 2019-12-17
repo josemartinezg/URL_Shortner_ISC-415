@@ -17,7 +17,7 @@
     <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
     <link href="../assets/vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-
+    <script src="https://cdn.jsdelivr.net/combine/npm/react@16/umd/react.production.min.js,npm/react-dom@16/umd/react-dom.production.min.js,npm/styled-components@4/dist/styled-components.min.js,npm/@microlink/mql@latest/dist/mql.min.js,npm/@microlink/vanilla@latest/dist/microlink.min.js"></script><script src="https://cdn.jsdelivr.net/combine/npm/react@16/umd/react.production.min.js,npm/react-dom@16/umd/react-dom.production.min.js,npm/styled-components@4/dist/styled-components.min.js,npm/@microlink/mql@latest/dist/mql.min.js,npm/@microlink/vanilla@latest/dist/microlink.min.js"></script>
     <!-- Custom styles for this template -->
     <link href="../assets/css/landing-page.min.css" rel="stylesheet">
 
@@ -61,9 +61,9 @@
                         </div>
                         <div class="card-body">
                             <#if urlreferencia?length &gt; 55>
-                                <p class="card-text text-black-50"><strong>Link de referencia   <a class="alert alert-primary" href="${urlreferencia}">${urlreferencia?substring(0,55)} ...</a></strong></p>
+                                <p class="card-text text-black-50"><strong>Link de referencia   <a class="link-previews" href="${urlreferencia}">${urlreferencia?substring(0,55)} ...</a></strong></p>
                                 <#else>
-                                    <p class="card-text text-black-50"><strong>Link de referencia   <a class="alert alert-primary" href="${urlreferencia}">${urlreferencia}</a></strong></p>
+                                    <p class="card-text text-black-50"><strong>Link de referencia   <a class="link-previews" href="${urlreferencia}">${urlreferencia}</a></strong></p>
                             </#if>
                             <br/>
                             <p class="card-text text-black-50"><strong>Link Generado   <a class="alert alert-primary" href="${urlgenerado}">${urlgenerado}</a></strong></p>
@@ -227,6 +227,14 @@
         });
     </script>
 </#if>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function (event) {
+        microlink('.link-previews', {
+            size: 'small'
+        })
+    })
+</script>
 </body>
 
 </html>
