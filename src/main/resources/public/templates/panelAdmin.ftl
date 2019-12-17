@@ -76,7 +76,13 @@
                                 <#if links?size != 0>
                                     <#list links as link>
                                         <tr>
-                                            <td><a href="${link.urlGenerada}">${link.urlReferencia}</a></td>
+                                            <td>
+                                                <#if link.urlReferencia?length &gt; 72>
+                                                    <a href="${link.urlReferencia}">${link.urlReferencia?substring(0,72)} ...</a>
+                                                    <#else>
+                                                        <a href="${link.urlReferencia}">${link.urlReferencia}</a>
+                                                </#if>
+                                            </td>
                                             <td><a href="${link.urlGenerada}">${link.urlGenerada}</a></td>
                                             <td>${link.usuario.username}</td>
                                             <td>${link.fechaCreacion}</td>
