@@ -89,15 +89,15 @@
                                             <td>${link.usuario.username}</td>
                                             <td>${link.fechaCreacion}</td>
                                             <td>
-                                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalQR">
+                                                <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#modalQR${link.id}">
                                                     Código QR
                                                 </button>
                                                 <!-- Modal -->
-                                                <div class="modal fade" id="modalQR" tabindex="-1" role="dialog" aria-labelledby="modalQRTitle" aria-hidden="true">
+                                                <div class="modal fade" id="modalQR${link.id}" tabindex="-1" role="dialog" aria-labelledby="modalQR${link.id}Title" aria-hidden="true">
                                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h5 class="modal-title" id="modalQRTitle">Información QR</h5>
+                                                                <h5 class="modal-title" id="modalQR${link.id}Title">Información QR</h5>
                                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
