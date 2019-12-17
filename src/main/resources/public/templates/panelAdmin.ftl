@@ -86,7 +86,8 @@
                                             <td><a href="${link.urlGenerada}">${link.urlGenerada}</a></td>
                                             <td>${link.usuario.username}</td>
                                             <td>${link.fechaCreacion}</td>
-                                            <td ><a href="#modaVaina">Codigo QR</a></td>
+                                            <td ><a href="#mostrarQRModal">Codigo QR</a></td>
+<#--                                            TODO: Agregar modal. Probar primero en el home.-->
                                             <td><a href="/campaignStatistics/${link.id}">
                                                     Reportes
                                                 </a>
