@@ -78,6 +78,7 @@ public class Main {
             String urlReferencia = request.cookie("url_referencia");
             if(urlReferencia == null){
                 attributes.put("urlreferencia", "");
+                attributes.put("urlgenerado", "");
             }else{
                 String urlGenerado = URLService.getInstance().selectUrlByUrlReferenciaAndUsuario(urlReferencia, usuario)
                         .geturlGenerada();
