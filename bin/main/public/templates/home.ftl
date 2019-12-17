@@ -17,7 +17,7 @@
     <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet">
     <link href="../assets/vendor/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
-
+    <script src="https://cdn.jsdelivr.net/combine/npm/react@16/umd/react.production.min.js,npm/react-dom@16/umd/react-dom.production.min.js,npm/styled-components@4/dist/styled-components.min.js,npm/@microlink/mql@latest/dist/mql.min.js,npm/@microlink/vanilla@latest/dist/microlink.min.js"></script><script src="https://cdn.jsdelivr.net/combine/npm/react@16/umd/react.production.min.js,npm/react-dom@16/umd/react-dom.production.min.js,npm/styled-components@4/dist/styled-components.min.js,npm/@microlink/mql@latest/dist/mql.min.js,npm/@microlink/vanilla@latest/dist/microlink.min.js"></script>
     <!-- Custom styles for this template -->
     <link href="../assets/css/landing-page.min.css" rel="stylesheet">
 
@@ -29,11 +29,11 @@
 <#include "navbar.ftl">
 
 <!-- Masthead -->
-<header class="masthead text-white text-center">
+<header class="masthead text-white">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
-            <div class="col-xl-9 mx-auto">
+            <div class="col-xl-9 mx-auto text-center">
                 <h1 class="mb-5">Acorta tu URL y comparte tu contenido con tu audiencia facilmente con enlaces mas atractivos.</h1>
             </div>
             <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
@@ -49,19 +49,48 @@
                 </form>
             </div>
         </div>
+<#--        Carta de URL Generado-->
         <#if urlreferencia != "">
             <!-- Modal -->
             <div class="row">
-                <div class="col-md-7 mx-auto">
+                <div class="col-md-10 mx-auto">
                     <br/>
                     <br/>
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header text-center">
                             <h3 class="text-black-50"><strong>URL resultado</strong></h3>
                         </div>
-                        <div class="card-body">
-                            <p class="text-black-50">${urlreferencia}</p>
-                            <p class="text-black-50">Our current domain + ${urlgenerado}</p>
+                        <div class="row no-gutters">
+                            <div class="col-md-4">
+                                <div class="card-img" id="qrcode${urlgenerado}"></div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <#if urlreferencia?length &gt; 55>
+                                        <div class="row">
+                                            <h4 class="card-text text-black-50"><strong>Link de referencia</strong></h4>
+                                        </div>
+                                        <div class="row">
+                                            <h5> <a class="link-previews" href="${urlreferencia}">${urlreferencia?substring(0,55)} ...</a></h5>
+                                        </div>
+                                    <#else>
+                                        <div class="row">
+                                            <h4 class="card-text text-black-50"><strong>Link de referencia</strong></h4>
+                                        </div>
+                                        <div class="row">
+                                            <h5><a class="link-previews" href="${urlreferencia}">${urlreferencia}</a></h5>
+                                        </div>
+                                    </#if>
+                                    <br/>
+                                    <div class="row">
+                                        <h4 class="card-text text-black-50"><strong>Link Generado</strong></h4>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <h5 class="card-text"><a class="alert alert-primary" href="${urlgenerado}">${urlgenerado}</a></h5>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-footer">
                             <a class="btn btn-danger btn-lg text-white" href="/homeWithoutURL">
@@ -205,10 +234,30 @@
 
 <!-- Bootstrap core JavaScript -->
 <script src="../assets/vendor/jquery/jquery.min.js"></script>
+<script src="../js/qrcode.min.js"></script>
 <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../assets/js/home.js"></script>
+<#if urlgenerado != "">
+    <script type="text/javascript">
+        new QRCode(document.getElementById("qrcode${urlgenerado}"), "${urlgenerado}");
+        var qrcode = new QRCode("test", {
+            text: "chinde.team/${urlgenerado}",
+            width: 128,
+            height: 128,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
+    </script>
+</#if>
 
-
+<script>
+    document.addEventListener('DOMContentLoaded', function (event) {
+        microlink('.link-previews', {
+            size: 'small'
+        })
+    })
+</script>
 </body>
 
 </html>

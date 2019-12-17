@@ -8,6 +8,7 @@ import services.AccesoService;
 import services.DataBaseService;
 import services.URLService;
 import services.UsuarioService;
+import soap.SoapBuilder;
 import spark.*;
 import spark.template.freemarker.FreeMarkerEngine;
 import ua_parser.Client;
@@ -27,7 +28,7 @@ import static spark.Spark.*;
 public class Main {
     private static String encriptorKey = "aHaf920@_9";
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws Exception {
         Spark.port(getHerokuAssignedPort());
         Spark.staticFileLocation("/public");
         /*Inicializacion de la base de datos.*/
@@ -38,6 +39,8 @@ public class Main {
         Configuration configuration = new Configuration(Configuration.getVersion());
         configuration.setClassForTemplateLoading(Main.class, "/public/templates");
         FreeMarkerEngine freeMarkerEngine = new FreeMarkerEngine(configuration);
+        //Iniciando la API SOAP
+        SoapBuilder.init();
 
         before("*", (request, response) -> {
             Session session = request.session(true);

@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin - Charts</title>
+    <title>SB Admin - Dashboard</title>
 
     <!-- Custom fonts for this template-->
     <link href="../assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -24,81 +24,25 @@
 
 <body id="page-top">
 
-<nav class="navbar navbar-expand navbar-dark bg-dark static-top">
-
-    <a class="navbar-brand mr-1" href="index.html">Start Bootstrap</a>
-
-    <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
-        <i class="fas fa-bars"></i>
-    </button>
-
-    <!-- Navbar Search -->
-    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="button">
-                    <i class="fas fa-search"></i>
-                </button>
-            </div>
-        </div>
-    </form>
-
-    <!-- Navbar -->
-    <ul class="navbar-nav ml-auto ml-md-0">
-        <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
-                <span class="badge badge-danger">9+</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-        </li>
-        <li class="nav-item dropdown no-arrow mx-1">
-            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
-                <span class="badge badge-danger">7</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Something else here</a>
-            </div>
-        </li>
-        <li class="nav-item dropdown no-arrow">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-user-circle fa-fw"></i>
-            </a>
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">Settings</a>
-                <a class="dropdown-item" href="#">Activity Log</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
-            </div>
-        </li>
-    </ul>
-
-</nav>
+<#include "admin-navbar.ftl">
 
 <div id="wrapper">
     <#include "admin-sidebar.ftl">
 
     <div id="content-wrapper">
+
         <div class="container-fluid">
+
             <!-- Breadcrumbs-->
             <ol class="breadcrumb">
                 <li class="breadcrumb-item">
                     <a href="#">Dashboard</a>
                 </li>
-                <li class="breadcrumb-item active">Charts</li>
+                <li class="breadcrumb-item active">Overview</li>
             </ol>
-            <h2>Cantidad de Visitas</h2>
-            <h3>${url.cantAccesos}</h3>
+
+            <!-- Icon Cards-->
+            <!-- DataTables Example -->
             <!-- Area Chart Example-->
             <div class="card mb-3">
                 <div class="card-header">
@@ -143,53 +87,7 @@
                     </div>
                 </div>
             </div>
-
-            <p class="small text-center text-muted my-5">
-                <em>More chart examples coming soon...</em>
-            </p>
-            <!-- DataTables Example -->
-            <div class="card mb-3">
-                <div class="card-header">
-                    <i class="fas fa-table"></i>
-                    Mi Contenido</div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                            <thead>
-                            <tr>
-                                <th>IP del Visitante</th>
-                                <th>Navegador</th>
-                                <th>Sistema Operativo</th>
-                                <th>Fecha</th>
-                            </tr>
-                            </thead>
-                            <tfoot>
-                                <th>IP del Visitante</th>
-                                <th>Navegador</th>
-                                <th>Sistema Operativo</th>
-                                <th>Fecha</th>
-                            </tr>
-                            </tfoot>
-                            <tbody>
-                            <#if accesos?size != 0>
-                                <#list accesos as acceso>
-                                    <tr>
-<#--                                        <td>${acceso.urls.cantAccesos}</td>-->
-                                        <td>${acceso.ipCliente}</td>
-                                        <td>${acceso.navegador}</td>
-                                        <td>${acceso.sistemaOperativo}</td>
-                                        <td>${acceso.fechaHoraAcceso}</td>
-                                    </tr>
-                                </#list>
-                            </#if>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-            </div>
         </div>
-        <!-- /.container-fluid -->
 
         <!-- Sticky Footer -->
         <footer class="sticky-footer">
@@ -238,12 +136,6 @@
 
 <!-- Page level plugin JavaScript-->
 <script src="../assets/vendor/chart.js/Chart.min.js"></script>
-
-<!-- Custom scripts for all pages-->
-<script src="../assets/js/sb-admin.min.js"></script>
-
-<!-- Page level plugin JavaScript-->
-<script src="../assets/vendor/chart.js/Chart.min.js"></script>
 <script src="../assets/vendor/datatables/jquery.dataTables.js"></script>
 <script src="../assets/vendor/datatables/dataTables.bootstrap4.js"></script>
 
@@ -252,7 +144,6 @@
 
 <!-- Demo scripts for this page-->
 <script src="../assets/js/demo/datatables-demo.js"></script>
-<#--TODO: Hacer la visualización dinámica de los rangos.-->
 <script>
     Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,' +
         '"Helvetica Neue",Arial,sans-serif';
@@ -396,13 +287,6 @@
         }
     });
 </script>
-
-<!-- Demo scripts for this page-->
-<script src="../assets/js/demo/chart-area-demo.js"></script>
-<script src="../assets/js/demo/chart-bar-demo.js"></script>
-<script src="../assets/js/demo/chart-pie-demo.js"></script>
-
-
 
 </body>
 

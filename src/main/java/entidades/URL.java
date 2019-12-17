@@ -22,7 +22,7 @@ public class URL implements Serializable {
     private int cantAccesos;
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Usuario usuario;
-    @OneToMany(mappedBy = "urls", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "urls", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<Acceso> misURLs;
 
     public URL(){
@@ -116,5 +116,15 @@ public class URL implements Serializable {
             acceso = new Acceso("", "", "", new Date(2000, Calendar.JANUARY, 1, 1, 1, 1), new URL(), 0, "");
         }
         return new Timestamp(acceso.getfechaHoraAcceso().getTime());
+    }
+
+    @Override
+    public String toString() {
+        return "URL{" +
+                "id=" + id +
+                ", urlGenerada='" + urlGenerada + '\'' +
+                ", urlReferencia='" + urlReferencia + '\'' +
+                ", fechaCreacion=" + fechaCreacion +
+                '}';
     }
 }

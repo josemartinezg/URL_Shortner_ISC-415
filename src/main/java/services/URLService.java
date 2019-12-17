@@ -84,6 +84,23 @@ public class URLService extends BaseService<URL>{
         UsuarioService.getInstance().editar(usuario);
     }
 
+    public URL generarUrlWithReturn(String urlReferencia, Usuario usuario) {
+        URL url = URLService.getInstance().selectUrlByUrlReferenciaAndUsuario(urlReferencia, usuario);
+        if(url == null) {
+            url = new URL(urlReferencia);
+        }
+        Encoder encoder = new Encoder();
+        String urlGenerada = encoder.encode(urlReferencia);
+        url.seturlGenerada(urlGenerada);
+        url.setFechaCreacion(new Timestamp(System.currentTimeMillis()));
+        usuario.setMisURLs(new HashSet<URL>());
+        url.setUsuario(usuario);
+        usuario.getMisURLs().add(url);
+        URLService.getInstance().crear(url);
+        UsuarioService.getInstance().editar(usuario);
+        return url;
+    }
+
     public long getSizeById() {
         Query query = getEntityManager()
                 .createNativeQuery("SELECT ID FROM URL \n" +

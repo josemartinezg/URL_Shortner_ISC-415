@@ -17,11 +17,11 @@ public class Acceso implements Serializable {
     private long hour;
     @Column(nullable = true)
     private String day;
-    @ManyToOne(optional = false, cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false, cascade = CascadeType.REMOVE)
     private URL urls;
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<Navegador> misNavegadores;
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<SistemaOperativo> misSOs;
 
     public Acceso(){}
@@ -131,5 +131,21 @@ public class Acceso implements Serializable {
 
     public void setDay(String day) {
         this.day = day;
+    }
+
+    @Override
+    public String toString() {
+        return "Acceso{" +
+                "id=" + id +
+                ", navegador='" + navegador + '\'' +
+                ", sistemaOperativo='" + sistemaOperativo + '\'' +
+                ", ipCliente='" + ipCliente + '\'' +
+                ", fechaHoraAcceso=" + fechaHoraAcceso +
+                ", hour=" + hour +
+                ", day='" + day + '\'' +
+                ", urls=" + urls +
+                ", misNavegadores=" + misNavegadores +
+                ", misSOs=" + misSOs +
+                '}';
     }
 }

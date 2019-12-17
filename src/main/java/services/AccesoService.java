@@ -1,6 +1,7 @@
 package services;
 
 import entidades.Acceso;
+import entidades.Usuario;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -30,8 +31,14 @@ public class AccesoService extends BaseService<Acceso> {
         EntityManager entityManager = getEntityManager();
         Query query = entityManager.createQuery("from Acceso where urls.id=:urlConsulta");
         query.setParameter("urlConsulta", urlConsulta);
-        List<Acceso> listaAccesos = query.getResultList();
-        return listaAccesos;
+        return query.getResultList();
+    }
+
+    public List<Acceso> getAccesosByUsername(String username){
+        EntityManager entityManager = getEntityManager();
+        Query query = entityManager.createQuery("from Acceso where urls.usuario.username=:username");
+        query.setParameter("username", username);
+        return (List<Acceso>) query.getResultList();
     }
 
     public Acceso getTopAccesoByUrlDateTime(long urlConsulta){
