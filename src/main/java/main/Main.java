@@ -30,15 +30,17 @@ public class Main {
     public static void main(String[] args){
         Spark.port(getHerokuAssignedPort());
         Spark.staticFileLocation("/public");
+
         /*Inicializacion de la base de datos.*/
         DataBaseService.getInstance().init();
         createEntities();
         /*Configuraciones del motor de plantillas.*/
         staticFiles.location("/public");
+
         Configuration configuration = new Configuration(Configuration.getVersion());
         configuration.setClassForTemplateLoading(Main.class, "/public/templates");
         FreeMarkerEngine freeMarkerEngine = new FreeMarkerEngine(configuration);
-
+       // new WebService().manejarServicios();
         before("*", (request, response) -> {
             Session session = request.session(true);
             if(session.attribute("usuario") == null)

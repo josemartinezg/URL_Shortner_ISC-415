@@ -19,9 +19,9 @@ public class JettyStart {
 
         HttpContext context = build(server, "/ws");
 
-        UsuarioWebService usuarioWebService = new UsuarioWebService();
-        Endpoint endpoint = Endpoint.create(usuarioWebService);
-        endpoint.publish(context);
+//        UsuarioWebService usuarioWebService = new UsuarioWebService();
+//        Endpoint endpoint = Endpoint.create(usuarioWebService);
+//        endpoint.publish(context);
     }
     private static com.sun.net.httpserver.HttpContext build(Server server, String contextString) throws Exception {
         JettyHttpServer jettyHttpServer = new JettyHttpServer(server, true);
