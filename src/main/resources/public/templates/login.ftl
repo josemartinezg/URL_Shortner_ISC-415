@@ -25,7 +25,8 @@
     <div class="card card-login mx-auto mt-5">
         <div class="card-header">Login
         </div>
-        <div class="card-body">
+        <div class="card-body text-center">
+            <a class="navbar-brand mr-1" href="/"><img src="../assets/img/chinde-logo.gif" alt="animated"/></a>
             <form action="/hacerLogin/" method="post"  enctype="application/x-www-form-urlencoded">
                 <div class="form-group">
                     <div class="form-label-group">
