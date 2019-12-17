@@ -32,6 +32,10 @@ dependencies {
     implementation "javax.activation:activation:1.1.1"
     //Parser para obtener informacion del cliente (navegador).
     compile 'com.github.ua-parser:uap-java:1.4.3'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile group: 'com.google.code.gson', name: 'gson', version: '2.8.1'
+    compile group: 'com.github.rbuck', name: 'java-codecs', version: '1.0.1'
+    compile group: 'org.eclipse.jetty', name: 'jetty-http-spi', version: '9.4.4.v20170414'
 }
 shadowJar{
     baseName = 'URL_Shortner_ISC-415'

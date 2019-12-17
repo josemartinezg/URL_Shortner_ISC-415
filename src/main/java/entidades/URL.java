@@ -22,7 +22,10 @@ public class URL implements Serializable {
     private int cantAccesos;
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Usuario usuario;
-    @OneToMany(mappedBy = "urls", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    /*TODO: CUIDADO CON ESTO, QUE SE CAMBIÓ A EAGER PARA RESOLVER UN TEMA DEL API.*/
+    /*TODO: CUIDADO CON ESTO, QUE SE CAMBIÓ A EAGER PARA RESOLVER UN TEMA DEL API.*/
+    /*TODO: CUIDADO CON ESTO, QUE SE CAMBIÓ A EAGER PARA RESOLVER UN TEMA DEL API.*/
+    @OneToMany(mappedBy = "urls", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private Set<Acceso> misURLs;
 
     public URL(){

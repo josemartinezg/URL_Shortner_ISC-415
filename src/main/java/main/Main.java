@@ -13,7 +13,6 @@ import spark.template.freemarker.FreeMarkerEngine;
 import ua_parser.Client;
 import ua_parser.Parser;
 import utils.Encoder;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -38,7 +37,7 @@ public class Main {
         Configuration configuration = new Configuration(Configuration.getVersion());
         configuration.setClassForTemplateLoading(Main.class, "/public/templates");
         FreeMarkerEngine freeMarkerEngine = new FreeMarkerEngine(configuration);
-
+        new WebServices().manejarServicios();
         before("*", (request, response) -> {
             Session session = request.session(true);
             if(session.attribute("usuario") == null)
