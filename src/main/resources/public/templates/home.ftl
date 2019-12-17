@@ -239,7 +239,7 @@
 <script src="../assets/js/home.js"></script>
 <#if urlgenerado != "">
     <script type="text/javascript">
-        new QRCode(document.getElementById("qrcode${urlgenerado}"), "${urlgenerado}");
+        new QRCode(document.getElementById("qrcode${urlgenerado}"), "chinde.team/${urlgenerado}");
         var qrcode = new QRCode("test", {
             text: "chinde.team/${urlgenerado}",
             width: 128,

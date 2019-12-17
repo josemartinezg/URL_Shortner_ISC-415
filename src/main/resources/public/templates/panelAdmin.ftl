@@ -291,7 +291,7 @@
 <#if links?size != 0>
     <#list links as link>
         <script type="text/javascript">
-            new QRCode(document.getElementById("qrcode${link.urlGenerada}"), "${link.urlGenerada}");
+            new QRCode(document.getElementById("qrcode${link.urlGenerada}"), "chinde.team/${link.urlGenerada}");
             var qrcode = new QRCode("test", {
                 text: "chinde.team/${link.urlGenerada}",
                 width: 128,
