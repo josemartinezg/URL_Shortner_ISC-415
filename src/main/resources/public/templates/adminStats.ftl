@@ -47,7 +47,7 @@
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-chart-area"></i>
-                    Area Chart Example</div>
+                    Cantidad de visitas por Hora</div>
                 <div class="card-body">
                     <canvas id="myHoursChart" width="100%" height="30"></canvas>
                 </div>
@@ -56,7 +56,7 @@
             <div class="card mb-3">
                 <div class="card-header">
                     <i class="fas fa-chart-bar"></i>
-                    Bar Chart Example</div>
+                    Cantidad de visitas por Día</div>
                 <div class="card-body">
                     <canvas id="myBarChartDays" width="100%" height="50"></canvas>
                 </div>
@@ -68,7 +68,7 @@
                     <div class="card mb-3">
                         <div class="card-header">
                             <i class="fas fa-chart-pie"></i>
-                            Pie Chart Example</div>
+                            Cantidad de visitas por Explorador</div>
                         <div class="card-body">
                             <canvas id="myBrowserPieChart" width="100%" height="100"></canvas>
                         </div>
@@ -79,7 +79,7 @@
                     <div class="card mb-3">
                         <div class="card-header">
                             <i class="fas fa-chart-pie"></i>
-                            Visitas por SO</div>
+                            Cantidad de visitas por Sistema Operativo</div>
                         <div class="card-body">
                             <canvas id="myOsPiChart" width="100%" height="100"></canvas>
                         </div>
