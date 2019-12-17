@@ -39,7 +39,7 @@ public class Main {
         configuration.setClassForTemplateLoading(Main.class, "/public/templates");
         FreeMarkerEngine freeMarkerEngine = new FreeMarkerEngine(configuration);
         //Iniciando la API SOAP
-        //SoapBuilder.init();
+        SoapBuilder.init();
 
         new WebServices().manejarServicios();
         before("*", (request, response) -> {
