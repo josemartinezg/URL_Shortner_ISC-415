@@ -60,7 +60,7 @@
                             <h3 class="text-black-50"><strong>URL resultado</strong></h3>
                         </div>
                         <div class="card-body">
-                            <p class="card-text text-black-50"><strong>Link de referencia   <a class="alert alert-primary" href="${urlreferencia}">${urlreferencia}</a></strong></p>
+                            <p class="card-text text-black-50"><strong>Link de referencia   <a class="alert alert-primary" href="${urlreferencia}">${urlreferencia?substring(0,55)} ...</a></strong></p>
                             <br/>
                             <p class="card-text text-black-50"><strong>Link Generado   <a class="alert alert-primary" href="${urlgenerado}">${urlgenerado}</a></strong></p>
                             <div id="qrcode${urlgenerado}"></div>
