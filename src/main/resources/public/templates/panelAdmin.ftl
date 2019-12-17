@@ -59,7 +59,7 @@
                                 <th>Username</th>
                                 <th>Fecha Creación</th>
                                 <th>Fecha ultimo Acceso</th>
-                                <th>Codigo QR</th>
+                                <th>Info link</th>
                                 <th>Impacto</th>
                                 <th>Acciones</th>
                             </tr>
@@ -71,7 +71,7 @@
                                     <td>Username</td>
                                     <td>Fecha Creación</td>
                                     <td>Fecha ultimo Acceso</td>
-                                    <td>Codigo QR</td>
+                                    <td>Info link</td>
                                     <td>Impacto</td>
                                     <td>Acciones</td>
                                 </tr>
@@ -93,11 +93,11 @@
                                             <td>${link.getTopAccesoFechaMasReciente()}</td>
                                             <td>
                                                 <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#modalQR${link.id}">
-                                                    Código QR
+                                                    Info link
                                                 </button>
                                                 <!-- Modal -->
                                                 <div class="modal fade" id="modalQR${link.id}" tabindex="-1" role="dialog" aria-labelledby="modalQR${link.id}Title" aria-hidden="true">
-                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
                                                                 <h5 class="modal-title" id="modalQR${link.id}Title">Información QR</h5>
@@ -105,10 +105,41 @@
                                                                     <span aria-hidden="true">&times;</span>
                                                                 </button>
                                                             </div>
-                                                            <div class="modal-body">
-                                                                <div class="row">
-                                                                    <div class="col">
-                                                                        <div id="qrcode${link.urlGenerada}"></div>
+                                                            <div class="col-md-4">
+                                                                <div class="card-img" id="qrcode${link.urlGenerada}"></div>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <div class="modal-body">
+                                                                    <#--                                                                <div class="row">-->
+                                                                    <#--                                                                    <div class="col">-->
+                                                                    <#--                                                                        <div id="qrcode${link.urlGenerada}"></div>-->
+                                                                    <#--                                                                    </div>-->
+                                                                    <#--                                                                </div>-->
+                                                                    <#--                                                                <div class="row">-->
+                                                                    <#--                                                                    <h6><a class="link-previews" href="${link.urlReferencia}">${link.urlReferencia}</a></h6>-->
+                                                                    <#--                                                                </div>-->
+                                                                    <#if link.urlReferencia?length &gt; 55>
+                                                                        <div class="row">
+                                                                            <h4 class="card-text text-black-50"><strong>Link de referencia</strong></h4>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <h5> <a class="link-previews" href="${link.urlReferencia}">${link.urlReferencia?substring(0,55)} ...</a></h5>
+                                                                        </div>
+                                                                    <#else>
+                                                                        <div class="row">
+                                                                            <h4 class="card-text text-black-50"><strong>Link de referencia</strong></h4>
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <h5><a class="link-previews" href="${link.urlReferencia}">${link.urlReferencia}</a></h5>
+                                                                        </div>
+                                                                    </#if>
+                                                                    <br/>
+                                                                    <div class="row">
+                                                                        <h4 class="card-text text-black-50"><strong>Link Generado</strong></h4>
+                                                                    </div>
+                                                                    <br/>
+                                                                    <div class="row">
+                                                                        <h5 class="card-text"><a class="alert alert-primary" href="${link.urlGenerada}">${link.urlGenerada}</a></h5>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -272,7 +303,13 @@
         </script>
     </#list>
 </#if>
-
+<script>
+    document.addEventListener('DOMContentLoaded', function (event) {
+        microlink('.link-previews', {
+            size: 'small'
+        })
+    })
+</script>
 <!-- Custom scripts for all pages-->
 <script src="../assets/js/sb-admin.min.js"></script>
 <!-- Demo scripts for this page-->
