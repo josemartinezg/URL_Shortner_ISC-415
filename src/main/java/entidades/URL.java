@@ -1,7 +1,11 @@
 package entidades;
 
+import services.AccesoService;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Set;
 import javax.persistence.*;
 import javax.persistence.criteria.Fetch;
@@ -104,5 +108,13 @@ public class URL implements Serializable {
 
     public void setFechaCreacion(Timestamp fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
+    }
+
+    public Timestamp getTopAccesoFechaMasReciente(){
+        Acceso acceso = AccesoService.getInstance().getTopAccesoByUrlDateTime(this.id);
+        if(acceso == null){
+            acceso = new Acceso("", "", "", new Date(2000, Calendar.JANUARY, 1, 1, 1, 1), new URL(), 0, "");
+        }
+        return new Timestamp(acceso.getfechaHoraAcceso().getTime());
     }
 }

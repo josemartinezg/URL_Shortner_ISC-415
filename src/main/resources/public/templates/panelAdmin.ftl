@@ -58,6 +58,7 @@
                                 <th>URL Acortada</th>
                                 <th>Username</th>
                                 <th>Fecha Creación</th>
+                                <th>Fecha ultimo Acceso</th>
                                 <th>Codigo QR</th>
                                 <th>Impacto</th>
                                 <th>Acciones</th>
@@ -69,6 +70,7 @@
                                     <td>URL Acortada</td>
                                     <td>Username</td>
                                     <td>Fecha Creación</td>
+                                    <td>Fecha ultimo Acceso</td>
                                     <td>Codigo QR</td>
                                     <td>Impacto</td>
                                     <td>Acciones</td>
@@ -88,6 +90,7 @@
                                             <td><a href="${link.urlGenerada}">${link.urlGenerada}</a></td>
                                             <td>${link.usuario.username}</td>
                                             <td>${link.fechaCreacion}</td>
+                                            <td>${link.getTopAccesoFechaMasReciente()}</td>
                                             <td>
                                                 <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#modalQR${link.id}">
                                                     Código QR

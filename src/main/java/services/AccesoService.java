@@ -7,6 +7,7 @@ import org.hibernate.Transaction;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +33,21 @@ public class AccesoService extends BaseService<Acceso> {
         List<Acceso> listaAccesos = query.getResultList();
         return listaAccesos;
     }
+
+    public Acceso getTopAccesoByUrlDateTime(long urlConsulta){
+        EntityManager entityManager = getEntityManager();
+        Query query = entityManager.createQuery("from Acceso where urls.id=:urlConsulta ORDER BY fechaHoraAcceso DESC");
+        query.setParameter("urlConsulta", urlConsulta);
+        query.setMaxResults(1);
+        Acceso acceso;
+        try{
+            acceso = (Acceso) query.getSingleResult();
+        }catch(NoResultException e){
+            acceso = null;
+        }
+        return acceso;
+    }
+
     public long getCantAccesosByUrl(String urlConsulta){
         Query query = getEntityManager().createQuery("Select count(acc.id) from Acceso acc " +
                 "where acc.urls.urlGenerada=:urlConsulta");
