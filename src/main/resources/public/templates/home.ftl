@@ -63,6 +63,7 @@
                             <p class="card-text text-black-50"><strong>Link de referencia   <a class="alert alert-primary" href="${urlreferencia}">${urlreferencia}</a></strong></p>
                             <br/>
                             <p class="card-text text-black-50"><strong>Link Generado   <a class="alert alert-primary" href="${urlgenerado}">${urlgenerado}</a></strong></p>
+                            <div id="qrcode${urlgenerado}"></div>
                         </div>
                         <div class="card-footer">
                             <a class="btn btn-danger btn-lg text-white" href="/homeWithoutURL">
@@ -206,10 +207,22 @@
 
 <!-- Bootstrap core JavaScript -->
 <script src="../assets/vendor/jquery/jquery.min.js"></script>
+<script src="../js/qrcode.min.js"></script>
 <script src="../assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="../assets/js/home.js"></script>
-
-
+<#if urlgenerado != "">
+    <script type="text/javascript">
+        new QRCode(document.getElementById("qrcode${urlgenerado}"), "${urlgenerado}");
+        var qrcode = new QRCode("test", {
+            text: "chinde.team/${urlgenerado}",
+            width: 128,
+            height: 128,
+            colorDark : "#000000",
+            colorLight : "#ffffff",
+            correctLevel : QRCode.CorrectLevel.H
+        });
+    </script>
+</#if>
 </body>
 
 </html>
