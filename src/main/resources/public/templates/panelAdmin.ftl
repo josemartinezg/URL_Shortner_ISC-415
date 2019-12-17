@@ -20,6 +20,8 @@
     <!-- Custom styles for this template-->
     <link href="../assets/css/sb-admin.css" rel="stylesheet">
 
+    <script src="https://cdn.jsdelivr.net/combine/npm/react@16/umd/react.production.min.js,npm/react-dom@16/umd/react-dom.production.min.js,npm/styled-components@4/dist/styled-components.min.js,npm/@microlink/mql@latest/dist/mql.min.js,npm/@microlink/vanilla@latest/dist/microlink.min.js"></script><script src="https://cdn.jsdelivr.net/combine/npm/react@16/umd/react.production.min.js,npm/react-dom@16/umd/react-dom.production.min.js,npm/styled-components@4/dist/styled-components.min.js,npm/@microlink/mql@latest/dist/mql.min.js,npm/@microlink/vanilla@latest/dist/microlink.min.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -86,7 +88,34 @@
                                             <td><a href="${link.urlGenerada}">${link.urlGenerada}</a></td>
                                             <td>${link.usuario.username}</td>
                                             <td>${link.fechaCreacion}</td>
-                                            <td ><a href="#mostrarQRModal">Codigo QR</a></td>
+                                            <td>
+                                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalQR">
+                                                    Código QR
+                                                </button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="modalQR" tabindex="-1" role="dialog" aria-labelledby="modalQRTitle" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="modalQRTitle">Información QR</h5>
+                                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="row">
+                                                                    <div class="col">
+                                                                        <div id="qrcode${link.urlGenerada}"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
 <#--                                            TODO: Agregar modal. Probar primero en el home.-->
                                             <td><a href="/campaignStatistics/${link.id}">
                                                     Reportes
@@ -224,10 +253,25 @@
 <script src="../assets/vendor/chart.js/Chart.min.js"></script>
 <script src="../assets/vendor/datatables/jquery.dataTables.js"></script>
 <script src="../assets/vendor/datatables/dataTables.bootstrap4.js"></script>
+<script src="../js/qrcode.min.js"></script>
+<#if links?size != 0>
+    <#list links as link>
+        <script type="text/javascript">
+            new QRCode(document.getElementById("qrcode${link.urlGenerada}"), "${link.urlGenerada}");
+            var qrcode = new QRCode("test", {
+                text: "chinde.team/${link.urlGenerada}",
+                width: 128,
+                height: 128,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        </script>
+    </#list>
+</#if>
 
 <!-- Custom scripts for all pages-->
 <script src="../assets/js/sb-admin.min.js"></script>
-
 <!-- Demo scripts for this page-->
 <script src="../assets/js/demo/datatables-demo.js"></script>
     <script>
