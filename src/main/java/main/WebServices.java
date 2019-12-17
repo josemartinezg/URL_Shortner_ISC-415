@@ -1,5 +1,6 @@
 package main;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import entidades.Acceso;
 import entidades.ErrorResponse;
@@ -53,6 +54,11 @@ public class WebServices {
 
         exception(Exception.class, (exception, request, response) -> {
             manejarError(ERROR_INTERNO, exception, request, response);
+        });
+        Spark.post("/token", (request, response) -> {
+            JsonObject json = new JsonObject();
+            json.addProperty("token", JWTUtils.createJWT(UUID.randomUUID().toString(), Constants.DOMAIN, "Access Token", 0));
+            return json;
         });
         path("/api", () ->{
             Spark.get("/api", (request, response) -> {
