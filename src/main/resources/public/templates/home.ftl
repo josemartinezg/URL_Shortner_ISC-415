@@ -29,11 +29,11 @@
 <#include "navbar.ftl">
 
 <!-- Masthead -->
-<header class="masthead text-white text-center">
+<header class="masthead text-white">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
-            <div class="col-xl-9 mx-auto">
+            <div class="col-xl-9 mx-auto text-center">
                 <h1 class="mb-5">Acorta tu URL y comparte tu contenido con tu audiencia facilmente con enlaces mas atractivos.</h1>
             </div>
             <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
@@ -49,6 +49,7 @@
                 </form>
             </div>
         </div>
+<#--        Carta de URL Generado-->
         <#if urlreferencia != "">
             <!-- Modal -->
             <div class="row">
@@ -56,18 +57,40 @@
                     <br/>
                     <br/>
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header text-center">
                             <h3 class="text-black-50"><strong>URL resultado</strong></h3>
                         </div>
-                        <div class="card-body">
-                            <#if urlreferencia?length &gt; 55>
-                                <p class="card-text text-black-50"><strong>Link de referencia   <a class="link-previews" href="${urlreferencia}">${urlreferencia?substring(0,55)} ...</a></strong></p>
-                                <#else>
-                                    <p class="card-text text-black-50"><strong>Link de referencia   <a class="link-previews" href="${urlreferencia}">${urlreferencia}</a></strong></p>
-                            </#if>
-                            <br/>
-                            <p class="card-text text-black-50"><strong>Link Generado   <a class="alert alert-primary" href="${urlgenerado}">${urlgenerado}</a></strong></p>
-                            <div id="qrcode${urlgenerado}"></div>
+                        <div class="row no-gutters">
+                            <div class="col-md-4">
+                                <div class="card-img" id="qrcode${urlgenerado}"></div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <#if urlreferencia?length &gt; 55>
+                                        <div class="row">
+                                            <h4 class="card-text text-black-50"><strong>Link de referencia</strong></h4>
+                                        </div>
+                                        <div class="row">
+                                            <h5> <a class="link-previews" href="${urlreferencia}">${urlreferencia?substring(0,55)} ...</a></h5>
+                                        </div>
+                                    <#else>
+                                        <div class="row">
+                                            <h4 class="card-text text-black-50"><strong>Link de referencia</strong></h4>
+                                        </div>
+                                        <div class="row">
+                                            <h5><a class="link-previews" href="${urlreferencia}">${urlreferencia}</a></h5>
+                                        </div>
+                                    </#if>
+                                    <br/>
+                                    <div class="row">
+                                        <h4 class="card-text text-black-50"><strong>Link Generado</strong></h4>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <h5 class="card-text"><a class="alert alert-primary" href="${urlgenerado}">${urlgenerado}</a></h5>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-footer">
                             <a class="btn btn-danger btn-lg text-white" href="/homeWithoutURL">
