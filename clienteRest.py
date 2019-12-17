@@ -18,9 +18,10 @@ def print_menu():
     print()
     print("-------------------- REST Api " + "  ----------------------")
     print("| Eliga la opción deseada en las siguientes opciones: |")
-    print("| 1. Listado de URLs                                  |")
-    print("| 2. Estadisticas por Visita                          |")
-    print("| 3. Acortar URL                                      |")
+    print("| 1. Generar Token                                    |")
+    print("| 2. Listado de URLs                                  |")
+    print("| 3. Estadisticas por Visita                          |")
+    print("| 4. Acortar URL                                      |")
     print("| 0. Exit                                             |")
     print("-------------------------------------------------------")
 
@@ -49,24 +50,31 @@ def post_estudiante(username):
         print("La creación de estudiante no funciono. ")
 
 opcion = -1
+TOKEN = ''
+headers = {}
 while True:
     print_menu()
     opcion = int(input("Opción tomada: "))
 
     if opcion == 0:
         break
-    elif opcion == 1:
+    if opcion == 1:
+        TOKEN = requests.post('http://localhost:4567/token').json()['token']
+        headers['token'] = TOKEN
+        print("Su nuevo token: {0}".format(TOKEN))
+
+    elif opcion == 2:
         username = input("Inserte el nombre del usuario: ")
         if (username == ""):
             username = "guess"
         get_urls_usuario(username)
-    elif opcion == 2:
+    elif opcion == 3:
         username = input("Inserte el nombre del usuario: ")
         if (username == ""):
             username = "guess"
         id_url = input("Indique el ID del vinculo cuyas estadísticas quiere vizualizar: ")
         get_accesos_usuario(username, id_url)
-    elif opcion == 3:
+    elif opcion == 4:
         username = input("Inserte el nombre del usuario: ")
         if (username == ""):
             username = "guess"
